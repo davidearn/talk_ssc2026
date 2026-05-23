@@ -1,0 +1,17 @@
+SSC2026.pdf
+SSC2026.tex
+
+*.aux
+*.bbl
+*.blg
+*.log
+*.nav
+*.out
+*.snm
+*.toc
+*.vrb
+
+cache/
+figure/
+unnamed*
+Rplots.pdf

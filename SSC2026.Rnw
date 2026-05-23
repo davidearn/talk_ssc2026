@@ -1,0 +1,77 @@
+\documentclass[handout]{beamer}
+
+<<setup, include=FALSE>>=
+knitr::opts_chunk$set(
+  echo = FALSE,
+  message = FALSE,
+  warning = FALSE
+)
+@
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usefonttheme[onlymath]{serif}
+
+\definecolor{beamerblue}{RGB}{50, 56, 176}
+\hypersetup{colorlinks,linkcolor=,urlcolor=beamerblue}
+
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{footline}[frame number]
+
+\newcommand{\dee}{{\rm d}}
+\newcommand{\dd}[2]{{\frac{\dee{#1}}{\dee{#2}}}}
+\newcommand{\ddt}[1]{\dd{#1}{t}}
+\newcommand{\R}{{\mathcal R}}
+\newcommand{\Rn}{{\R_{0}}}
+\newcommand{\emphblue}[1]{{\color{structure.fg}\emph{#1}}}
+
+\title{The probability that an Emerging Infectious Disease will Burn Out}
+\author{David J. D. Earn}
+\institute{Department of Mathematics \& Statistics\\McMaster University}
+\date{SSC Annual Meeting\\McMaster University\\Monday 1 June 2026, 13:30--14:00}
+
+\begin{document}
+
+\begin{frame}[plain,noframenumbering]
+  \titlepage
+\end{frame}
+
+\begin{frame}
+  \frametitle{Placeholder structure}
+
+  \begin{itemize}
+    \item Motivation and persistence puzzle
+    \item Stochastic SIR/SIRS burnout formulation
+    \item Analytical approximation and comparison with simulations
+    \item Implications for emerging infectious diseases
+  \end{itemize}
+\end{frame}
+
+\section{Motivation}
+
+\begin{frame}
+  \frametitle{Motivation}
+
+  Placeholder for later expansion.
+\end{frame}
+
+\section{Burnout Probability}
+
+\begin{frame}
+  \frametitle{Burnout probability}
+
+  Placeholder for later expansion.
+\end{frame}
+
+\section{Implications}
+
+\begin{frame}
+  \frametitle{Implications}
+
+  Placeholder for later expansion.
+\end{frame}
+
+\end{document}
