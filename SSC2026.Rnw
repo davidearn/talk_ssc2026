@@ -47,6 +47,21 @@ knitr::opts_chunk$set(
 \newcommand{\Imin}{{I_{\rm min}}}
 \newcommand{\Oh}{{\mathcal O}}
 \newcommand{\Npop}{{n}}
+\newcommand{\eg}{\textit{e.g., }}
+\newcommand{\tinit}{t_{\rm i}}
+\newcommand{\sinit}{s_{\rm i}}
+\newcommand{\iinit}{i_{\rm i}}
+\newcommand{\rinit}{r_{\rm i}}
+\newcommand{\tauinit}{\tau_{\rm i}}
+\newcommand{\xinit}{x_{\rm i}}
+\newcommand{\yinit}{y_{\rm i}}
+\newcommand{\xpeak}{\hat{x}}
+\newcommand{\ddx}[1]{\dd{#1}{x}}
+\newcommand{\myhyperlink}[2]{{\color{cyan}\hyperlink{#1}{#2}}}
+\newcommand{\frameendtarget}[1]{%
+  \par\vskip 0pt plus 1filll\relax
+  \only<.>{\hypertarget{#1}{}}%
+}
 \newcommand{\emphblue}[1]{{\color{structure.fg}\emph{#1}}}
 \newcommand{\codex}[1]{{\color{red}#1}}
 \let\term\emphblue
@@ -191,106 +206,179 @@ knitr::opts_chunk$set(
 \section{The SIR model}
 
 \begin{frame}
-  \frametitle{Susceptible-Infectious-Removed (SIR) Model}
+  \frametitle{Susceptible-Infectious-Removed (SIR) model
+    \quad \parbox{10ex}{\raggedright\tiny\color{cyan} Kermack and McKendrick (1927)}
+  }
 
-  \centering
-  \includegraphics[width=0.73\textwidth]{sir_flowchart.png}
-
-  \pause
-  \begin{equation*}\label{eq:basic-sir-count-odes}
-  \begin{aligned}
-  \ddt{S} &\;=\; -\beta S I,\\
-  \ddt{I} &\;=\; \beta S I-\gamma I,\\
-  \ddt{R} &\;=\; \gamma I.
-  \end{aligned}
-  \end{equation*}
-
-  \begin{equation*}\label{eq:basic-sir-initial-conditions}
-  S(t_{\rm i})\;=\;s_{\rm i},\qquad
-  I(t_{\rm i})\;=\;i_{\rm i},\qquad
-  R(t_{\rm i})\;=\;r_{\rm i}.
-  \end{equation*}
+  %%\leftline{\tiny\color{cyan} Kermack and McKendrick 1927 (KM27)}
 
   \pause
-  Upper case: functions. Lower case: independent variables and values of
-  functions at specific points.
+  \begin{center}
+  %%\includegraphics[width=0.9\textwidth]{flowcharts/flowrates.pdf}
+  %%\includegraphics[width=0.9\textwidth]{images/SIR_flow_colour.pdf}
+  %%\includegraphics[width=\textwidth]{images/SIRflowchart_nogreek.png}
+  \includegraphics[width=0.8\textwidth]{sir_flowchart.png}
+  \end{center}
+
+  \pause
+  %%\makebox[\textwidth][c]{%
+  %%Ordinary differential equations (ODEs):
+  \begin{equation*}
+  \text{\color{beamerblue}ODEs:} \quad
+    \ddt{S} \;=\; - \beta S I \qquad\quad
+    \ddt{I} \;=\; \beta S I - \gamma I  \qquad\quad
+    \ddt{R} \;=\; \gamma I
+  \quad \phantom{\text{ODEs:}}
+  \end{equation*}
+  %%}
+  \vspace{-10pt}
+  \pause
+  %%Initial conditions:
+  \begin{equation*}
+    %%\phantom{-S}
+    S(\tinit) \;=\; \sinit \qquad\qquad\
+    I(\tinit) \;=\; \iinit \qquad\qquad\quad
+    R(\tinit) \;=\; \rinit
+  \end{equation*}
+
+  \bigskip
+  \pause
+  \emphblue{Notational convention:}
+  \begin{itemize}
+    \pause\item UPPER CASE (\eg $S$, $I$) $\implies$ functions
+    \pause\item lower case (\eg $t$, $\sinit$, $\iinit$) $\implies$
+    independent variables and values of functions at specific points
+  \end{itemize}
+
+  \medskip
+  \pause
+  \emphblue{Parameters:}
+  \begin{itemize}
+  \pause\item
+  {Transmission rate:} \ $\beta$
+  \pause\item
+  {Recovery rate:} \ $\gamma$
+  \pause \qquad\qquad
+  ($\frac{1}{\gamma} = \text{mean infectious period}$)
+  \end{itemize}
+
 \end{frame}
 
 \begin{frame}
-  \frametitle{SIR Model: Proportional Form}
+  \frametitle{\textbf{SIR model:} in dimensionless, proportional form}
 
   \small
-  \begin{equation*}\label{eq:basic-sir-proportion-defs}
-  \Npop\;=\;S+I+R,\qquad
-  X\;=\;\frac{S}{\Npop},\qquad
-  Y\;=\;\frac{I}{\Npop}.
-  \end{equation*}
+  \begin{itemize}\itemsep3pt
+    \pause\item Total population: $\Npop = S + I + R$
 
-  \vspace{-0.3em}
-  \begin{equation*}\label{eq:basic-sir-scaled-time-r0}
-  \Rn\;=\;\frac{\beta}{\gamma},
-  \qquad
-  \tau\;=\;\gamma t.
-  \end{equation*}
+    \pause\item State variables:
+    \begin{itemize}\itemsep3pt
+      \pause\item \emphblue{Susceptible fraction:} \ \ \ $X = S/\Npop$
+      \pause\item \emphblue{Prevalence of infection:}  \ $Y = I/\Npop$
+    \end{itemize}
 
-  \vspace{-0.3em}
-  \begin{equation*}\label{eq:basic-sir-proportion-odes}
-  \begin{aligned}
-  \ddtau{X} &\;=\; -\Rn X Y,\qquad
-    X(\tau_{\rm i})\;=\;x_{\rm i},\\
-  \ddtau{Y} &\;=\; (\Rn X-1)Y,\qquad
-    Y(\tau_{\rm i})\;=\;y_{\rm i}.
-  \end{aligned}
-  \end{equation*}
+  \pause\item Dimensionless parameter: \emphblue{Basic reproduction number:} \;$\Rn = \dfrac{\beta}{\gamma}$
+  \pause
+  $\Big(\parbox{10ex}{\centering\scriptsize transmission rate}\Big)
+  \times \Big(\parbox{8ex}{\centering\scriptsize mean infectious period}\Big)
+  \pause = \; \Big(\parbox{31ex}{\centering\scriptsize number of infections expected to be caused by a single infectious individual in a wholly susceptible population}\Big)$
+
+  \pause\item Dimensionless time unit:
+  \begin{itemize}
+  \pause\item
+  \emphblue{Time in units of mean infectious period:} \ $\tau = \gamma t$
+  \end{itemize}
+
+  \end{itemize}
 
   \pause
-  Peak prevalence occurs when
-  \begin{equation*}\label{eq:basic-sir-peak-condition}
-  X(\tau)\;=\;\frac{1}{\Rn}\;\equiv\;x_{\rm peak}.
+  \begin{equation*}
+    \begin{aligned}
+      \ddtau{X} &\;=\; - \Rn X Y,        & \qquad X(\tauinit) \;=\; \xinit \\
+      \noalign{\vspace{5pt}}
+      \ddtau{Y} &\;=\; (\Rn X  - 1) Y,   & \qquad Y(\tauinit) \;=\; \yinit
+    \end{aligned}
   \end{equation*}
+
+  \begin{itemize}
+    \pause\item \emphblue{Peak prevalence:} \ max $Y(\tau) $ \
+    occurs when \ $X(\tau)=\dfrac{1}{\Rn}\equiv\xpeak$
+  \end{itemize}
+
+  \only<.>{\hypertarget{eq:SIR}{}}
+
 \end{frame}
 
 \begin{frame}
-  \frametitle{SIR Model: Typical Numerical Solution}
+  \frametitle{\textbf{SIR model:} Typical (numerical) solution\hfill\break for susceptibles $X(\tau)$ and prevalence of infection $Y(\tau)$}
 
-  \centering
-  \includegraphics[width=0.94\textwidth,height=0.77\textheight,keepaspectratio]{mbrs_sir_timeseries.pdf}
+  \begin{center}
+
+    \includegraphics[width=\textwidth]{mbrs_sir_timeseries.pdf}
+
+    \bigskip
+    Time $\tau$ measured in units of mean infectious period ($\frac{1}{\gamma}$)
+
+  \end{center}
+
+  \hypertarget{sir.short}{}
 \end{frame}
 
 \begin{frame}
-  \frametitle{SIR Model: Phase Plane}
+  \frametitle{\textbf{SIR model:} \ $x$-$y$ phase plane}
 
-  \begin{equation*}\label{eq:basic-sir-phase-plane-ratio}
-  \frac{\ddtau{Y}}{\ddtau{X}}
-  \;=\;
-  \frac{\Rn X Y-Y}{-\Rn X Y}
-  \;=\;
-  -1+\frac{1}{\Rn X}.
-  \end{equation*}
+  \begin{itemize}\itemsep10pt
 
+    \pause\item No closed-form analytical solution of
+    \myhyperlink{eq:SIR}{SIR model} for
+    %% time series of
+    susceptible proportion $X(\tau)$ and prevalence of infection
+    $Y(\tau)$
+
+    \pause\item But the \emphblue{exact solution in $x$-$y$ phase plane} is easily found:
+
+    \smallskip
+    \begin{itemize}
+
+      \pause\item Consider \emphblue{ratio of rates} of change of $Y$ and $X$:
+      \pause
+      \begin{equation*}
+        \frac{\dee Y / \dee\tau}{\dee X/\dee\tau}
+        \pause \;=\; \frac{\Rn X Y - Y}{-\Rn X Y}
+        \pause \;=\; -1 + \frac{1}{\Rn X}
+      \end{equation*}
+
+      \pause\item Obtain simple \emphblue{separable ODE} for $Y(x)$:
+      \begin{equation*}
+        \ddx{Y} \;=\; -1 + \frac{\xpeak}{x} \,,
+        \qquad Y(\xinit) \;=\; \yinit
+      \end{equation*}
+      \pause
+      {\footnotesize\hfill
+\        ($\xpeak \,=\, \frac{1}{\Rn} \,=\, X(\tau)\text{ at peak prevalence}$)}
+
+      \bigskip
+      \pause\item \emphblue{Exact solution for phase portrait} is
+      \begin{equation*}
+        Y(x) \;=\; \yinit + (\xinit - x) - \xpeak\log{\frac{\xinit}{x}} \,,
+      \end{equation*}
+
+    \end{itemize}
+  \end{itemize}
   \pause
-  Therefore
-  \begin{equation*}\label{eq:basic-sir-phase-plane-ode}
-  \frac{\dee Y}{\dee x}
-  \;=\;
-  -1+\frac{x_{\rm peak}}{x},\qquad
-  Y(x_{\rm i})\;=\;y_{\rm i}.
-  \end{equation*}
-
-  \pause
-  The exact phase-plane solution is
-  \begin{equation*}\label{eq:basic-sir-phase-plane-solution}
-  Y(x)
-  \;=\;
-  y_{\rm i}+(x_{\rm i}-x)-x_{\rm peak}\log\left(\frac{x_{\rm i}}{x}\right).
-  \end{equation*}
+  \frameendtarget{eq:dYdx}
+  \frameendtarget{eq:Yofx}
 \end{frame}
 
 \begin{frame}
-  \frametitle{SIR Model: Exact Phase Portrait}
+  \frametitle{\textbf{SIR model:} \ Exact $x$-$y$ phase portrait \,$Y(x)$}
 
-  \centering
-  \includegraphics[width=0.94\textwidth,height=0.77\textheight,keepaspectratio]{mbrs_sir_phase_portrait.pdf}
+  \begin{center}
+    \includegraphics[width=0.75\textwidth]{mbrs_sir_phase_portrait.pdf}
+  \end{center}
+
+  \hypertarget{fig:pp}{}
+
 \end{frame}
 
 \begin{frame}
