@@ -5,7 +5,9 @@ all: $(TALK).pdf
 $(TALK).tex: $(TALK).Rnw
 	Rscript -e "library(knitr); knit('$(TALK).Rnw')"
 
-$(TALK).pdf: $(TALK).tex
+$(TALK).pdf: $(TALK).tex $(TALK).bib
+	pdflatex -interaction=nonstopmode -halt-on-error $(TALK).tex
+	bibtex $(TALK)
 	pdflatex -interaction=nonstopmode -halt-on-error $(TALK).tex
 	pdflatex -interaction=nonstopmode -halt-on-error $(TALK).tex
 
