@@ -32,9 +32,9 @@ knitr::opts_chunk$set(
 \newcommand{\Rn}{{\R_{0}}}
 \newcommand{\eps}{{\varepsilon}}
 \newcommand{\Ppersist}{{\mathcal P}}
-\newcommand{\xstar}{{X^\star}}
-\newcommand{\ystar}{{Y^\star}}
-\newcommand{\xin}{{X_{\rm in}}}
+\newcommand{\xstar}{{x^\star}}
+\newcommand{\ystar}{{y^\star}}
+\newcommand{\xin}{{x_{\rm in}}}
 \newcommand{\Ihat}{{\hat I}}
 \newcommand{\Imin}{{I_{\rm min}}}
 \newcommand{\Oh}{{\mathcal O}}
@@ -42,7 +42,7 @@ knitr::opts_chunk$set(
 \let\term\emphblue
 
 \title{The probability that an Emerging Infectious Disease will Burn Out}
-\author{David J. D. Earn}
+\author{David Earn}
 \institute{Department of Mathematics \& Statistics\\McMaster University}
 \date{SSC Annual Meeting\\McMaster University\\Monday 1 June 2026, 13:30--14:00}
 
@@ -55,38 +55,21 @@ knitr::opts_chunk$set(
 \section{Question}
 
 \begin{frame}
-  \frametitle{Joint Work}
+  \frametitle{Joint Work With}
 
-  \begin{columns}[T,onlytextwidth]
-    \begin{column}{0.24\textwidth}
-      \centering
-      \includegraphics[width=0.95\textwidth,height=0.47\textheight,keepaspectratio]{david_earn.jpg}
+  \newcommand{\myheight}{0.4\textheight}
+  \newcommand{\myvspace}{0.3em}
 
-      \vspace{0.4em}
-      David Earn
-    \end{column}
-    \begin{column}{0.24\textwidth}
-      \centering
-      \includegraphics[width=0.95\textwidth,height=0.47\textheight,keepaspectratio]{todd_parsons.jpg}
-
-      \vspace{0.4em}
-      Todd Parsons
-    \end{column}
-    \begin{column}{0.24\textwidth}
-      \centering
-      \includegraphics[width=0.95\textwidth,height=0.47\textheight,keepaspectratio]{ben_bolker.jpg}
-
-      \vspace{0.4em}
-      Ben Bolker
-    \end{column}
-    \begin{column}{0.24\textwidth}
-      \centering
-      \includegraphics[width=0.95\textwidth,height=0.47\textheight,keepaspectratio]{jonathan_dushoff.jpg}
-
-      \vspace{0.4em}
-      Jonathan Dushoff
-    \end{column}
-  \end{columns}
+  \centering
+  \begin{tabular}{ccc}
+    %%\includegraphics[height=\myheight]{david_earn.jpg}
+    \includegraphics[height=\myheight]{photos/todd_parsons.jpg} &
+    \includegraphics[height=\myheight]{photos/jonathan_dushoff.jpg} &
+    \includegraphics[height=\myheight]{photos/ben_bolker.jpg} \\
+    \vspace{\myvspace}Todd Parsons &
+    \vspace{\myvspace}Jonathan Dushoff &
+    \vspace{\myvspace}Ben Bolker
+  \end{tabular}
 \end{frame}
 
 \begin{frame}
