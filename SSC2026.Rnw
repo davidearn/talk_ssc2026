@@ -38,7 +38,9 @@ knitr::opts_chunk$set(
 \newcommand{\Ihat}{{\hat I}}
 \newcommand{\Imin}{{I_{\rm min}}}
 \newcommand{\Oh}{{\mathcal O}}
+\newcommand{\Npop}{{n}}
 \newcommand{\emphblue}[1]{{\color{structure.fg}\emph{#1}}}
+\newcommand{\codex}[1]{{\color{red}#1}}
 \let\term\emphblue
 
 \title{The probability that an Emerging Infectious Disease will Burn Out}
@@ -119,22 +121,22 @@ knitr::opts_chunk$set(
   \frametitle{SIR With Vital Dynamics}
 
   Counts are natural for the epidemic model:
-  \[
+  \begin{equation*}\label{eq:sir-counts}
   \begin{aligned}
-  \ddt{S} &= \mu n - \beta\frac{S I}{n} - \mu S,\\
-  \ddt{I} &= \beta\frac{S I}{n} -(\gamma+\mu)I,\\
-  \ddt{R} &= \gamma I - \mu R.
+  \ddt{S} &\;=\; \mu n - \beta\frac{S I}{n} - \mu S,\\
+  \ddt{I} &\;=\; \beta\frac{S I}{n} -(\gamma+\mu)I,\\
+  \ddt{R} &\;=\; \gamma I - \mu R.
   \end{aligned}
-  \]
+  \end{equation*}
 
   \pause
-  \[
-  \Rn=\frac{\beta}{\gamma+\mu},
+  \begin{equation*}\label{eq:r0-epsilon-defs}
+  \Rn\;=\;\frac{\beta}{\gamma+\mu},
   \qquad
-  \eps=\frac{\mu}{\gamma+\mu}
-  =
+  \eps\;=\;\frac{\mu}{\gamma+\mu}
+  \;=\;
   \frac{\text{mean infectious period}}{\text{mean lifetime}}.
-  \]
+  \end{equation*}
 
   \vspace{0.4em}
   For acute human infections, \(\eps\) is small.
@@ -144,26 +146,26 @@ knitr::opts_chunk$set(
   \frametitle{Counts and Proportions}
 
   For phase-plane geometry and the formula, use proportions:
-  \[
-  X=\frac{S}{n},\qquad
-  Y=\frac{I}{n},\qquad
-  Z=\frac{R}{n}.
-  \]
+  \begin{equation*}\label{eq:proportion-defs}
+  X\;=\;\frac{S}{n},\qquad
+  Y\;=\;\frac{I}{n},\qquad
+  Z\;=\;\frac{R}{n}.
+  \end{equation*}
 
   With time scaled by \(\gamma+\mu\),
-  \[
-  \ddtau{X}=\eps(1-X)-\Rn XY,
+  \begin{equation*}\label{eq:sir-proportion-odes}
+  \ddtau{X}\;=\;\eps(1-X)-\Rn XY,
   \qquad
-  \ddtau{Y}=(\Rn X-1)Y.
-  \]
+  \ddtau{Y}\;=\;(\Rn X-1)Y.
+  \end{equation*}
 
   \pause
   If \(\Rn>1\), the deterministic endemic equilibrium is
-  \[
+  \begin{equation*}\label{eq:sir-endemic-equilibrium}
   (\xstar,\ystar)
-  =
+  \;=\;
   \left(\frac{1}{\Rn},\eps\left(1-\frac{1}{\Rn}\right)\right).
-  \]
+  \end{equation*}
 
   \pause
   But in a finite population, \(nY(t)\) is the expected number infectious.
@@ -242,18 +244,18 @@ knitr::opts_chunk$set(
 
       \pause
       If \(K(0)=1\), define
-      \[
+      \begin{equation*}\label{eq:kendall-integrals}
       \begin{aligned}
-      H(s)&=\int_0^s [d(u)-b(u)]\,\dee u,\\
-      A&=\int_0^\infty e^{H(s)}d(s)\,\dee s.
+      H(s)&\;=\;\int_0^s [d(u)-b(u)]\,\dee u,\\
+      A&\;=\;\int_0^\infty e^{H(s)}d(s)\,\dee s.
       \end{aligned}
-      \]
+      \end{equation*}
 
       \pause
       Kendall gives the extinction probability
-      \[
-      q=\frac{A}{1+A}.
-      \]
+      \begin{equation*}\label{eq:kendall-extinction-probability}
+      q\;=\;\frac{A}{1+A}.
+      \end{equation*}
 
       \pause
       If \(K(0)=m\), the extinction probability is \(q^m\).
@@ -261,7 +263,7 @@ knitr::opts_chunk$set(
   \end{columns}
 
   \vspace{0.3em}
-  No proof here; this is the stochastic piece needed inside the trough.
+  \codex{No proof here; this is the stochastic piece needed inside the trough.}
 \end{frame}
 
 \begin{frame}
@@ -269,17 +271,17 @@ knitr::opts_chunk$set(
 
   When infection is rare, the susceptible proportion changes mainly by
   demographic replenishment:
-  \[
+  \begin{equation*}\label{eq:susceptible-replenishment}
   X(t) \approx 1-(1-\xin)e^{-\mu t}.
-  \]
+  \end{equation*}
 
   \pause
   One infectious lineage then has time-dependent rates
-  \[
-  b(t)=\beta X(t),
+  \begin{equation*}\label{eq:trough-birth-death-rates}
+  b(t)\;=\;\beta X(t),
   \qquad
-  d(t)=\gamma+\mu.
-  \]
+  d(t)\;=\;\gamma+\mu.
+  \end{equation*}
 
   \pause
   Kendall's theorem converts these rates into the probability that a
@@ -294,31 +296,31 @@ knitr::opts_chunk$set(
   % (2024), the poster formula block, and David's preferred convention before
   % using this as the final slide version.
   With
-  \[
-  z=\frac{\Rn}{\eps}(1-\xin),
+  \begin{equation*}\label{eq:burnout-za}
+  z\;=\;\frac{\Rn}{\eps}(1-\xin),
   \qquad
-  a=\frac{\Rn}{\eps}(1-\xstar),
-  \]
+  a\;=\;\frac{\Rn}{\eps}(1-\xstar),
+  \end{equation*}
   define
-  \[
-  B =
+  \begin{equation*}\label{eq:burnout-B}
+  B \;=\;
   \sqrt{\frac{2\pi}{\eps(\Rn-1)}}\,
   \left(\frac{a}{z}\right)^a e^{z-a}.
-  \]
+  \end{equation*}
   The per-lineage burnout probability after the first epidemic is
-  \[
+  \begin{equation*}\label{eq:burnout-lineage-q}
   q \approx \left(1+\frac{1}{B}\right)^{-1}.
-  \]
+  \end{equation*}
 
   \pause
   If \(k\) infectives are introduced,
-  \[
-  p_k = 1-\left(\frac{1}{\Rn}\right)^k,
+  \begin{equation*}\label{eq:first-wave-persistence-probability}
+  p_k \;=\; 1-\left(\frac{1}{\Rn}\right)^k,
   \qquad
   \Ppersist_1(\Rn,\eps,n,k)
-  =
+  \;=\;
   p_k\left(1-q^{n\ystar}\right).
-  \]
+  \end{equation*}
 \end{frame}
 
 \begin{frame}
@@ -472,27 +474,27 @@ knitr::opts_chunk$set(
 
   At the start of invasion, \(X(0)\approx1\), so one infectious lineage is
   approximately a homogeneous birth-death process with
-  \[
-  b=\beta,
+  \begin{equation*}\label{eq:fizzle-birth-death-rates}
+  b\;=\;\beta,
   \qquad
-  d=\gamma+\mu.
-  \]
+  d\;=\;\gamma+\mu.
+  \end{equation*}
 
   \pause
   The extinction probability for one lineage is
-  \[
-  \frac{d}{b}=\frac{1}{\Rn}.
-  \]
+  \begin{equation*}\label{eq:fizzle-one-lineage}
+  \frac{d}{b}\;=\;\frac{1}{\Rn}.
+  \end{equation*}
 
   \pause
   With \(k\) introduced infectives,
-  \[
+  \begin{equation*}\label{eq:fizzle-probability}
   \prob\{\text{fizzle}\}\approx \left(\frac{1}{\Rn}\right)^k,
   \qquad
-  p_k=\prob\{\text{not fizzle}\}
-  =
+  p_k\;=\;\prob\{\text{not fizzle}\}
+  \;=\;
   1-\left(\frac{1}{\Rn}\right)^k.
-  \]
+  \end{equation*}
 \end{frame}
 
 \begin{frame}
@@ -500,23 +502,23 @@ knitr::opts_chunk$set(
 
   The formula needs the susceptible proportion at entry into the rare
   infection layer:
-  \[
-  Y=\ystar=\eps\left(1-\frac{1}{\Rn}\right),
+  \begin{equation*}\label{eq:boundary-layer-entry}
+  Y\;=\;\ystar\;=\;\eps\left(1-\frac{1}{\Rn}\right),
   \qquad
-  X=\xin.
-  \]
+  X\;=\;\xin.
+  \end{equation*}
 
   \pause
   The SIAP phase-plane approximation supplies \(\xin\) analytically.
 
   \pause
-  \[
-  \xin =
+  \begin{equation*}\label{eq:xin-phase-plane-approximation}
+  \xin \;=\;
   e^{-\Rn(1-\ystar)}
   + \eps e^{\Rn\ystar}
   \log\left(\frac{\ystar}{Y_{\max}}\right)
   + \Oh(\eps^2).
-  \]
+  \end{equation*}
 
   % TODO: Decide later whether this belongs in the main deck or should remain
   % backup; it is background machinery rather than the main biological point.
@@ -525,17 +527,16 @@ knitr::opts_chunk$set(
 \begin{frame}
   \frametitle{Backup: Conditional Burnout Form}
 
-  The poster and source slides also express the conditional burnout
-  probability after not fizzling as
-  \[
+  The conditional burnout probability after not fizzling can be written as
+  \begin{equation*}\label{eq:conditional-burnout-q}
   \prob\{\text{burnout}\mid\text{not fizzle}\}
   \approx
   q^{n\ystar}.
-  \]
+  \end{equation*}
 
   \pause
   Equivalently, using the Laplace approximation directly,
-  \[
+  \begin{equation*}\label{eq:conditional-burnout-laplace}
   \exp\left[
   -n\ystar
   \sqrt{\frac{\eps(\Rn-1)}{2\pi}}\,
@@ -544,7 +545,7 @@ knitr::opts_chunk$set(
   \frac{1-\xin}{1-\frac{1}{\Rn}}
   \right)^{\frac{\Rn}{\eps}(1-\frac{1}{\Rn})}
   \right].
-  \]
+  \end{equation*}
 
   % TODO: Check which algebraic form David prefers for visibility.
 \end{frame}
