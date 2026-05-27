@@ -1,4 +1,5 @@
-\documentclass{beamer}
+%%\documentclass{beamer}
+\documentclass[handout]{beamer}
 
 <<setup, include=FALSE>>=
 knitr::opts_chunk$set(
@@ -11,6 +12,7 @@ knitr::opts_chunk$set(
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
 \usepackage{amsmath,amssymb}
+\usepackage{mathtools} % \coloneq
 \usepackage{graphicx}
 \usepackage{hyperref}
 \usepackage{bibentry}
@@ -18,8 +20,10 @@ knitr::opts_chunk$set(
 
 \graphicspath{{figures/}{photos/}}
 
-\definecolor{beamerblue}{RGB}{50,56,176}
-\hypersetup{colorlinks,linkcolor=,urlcolor=beamerblue}
+\definecolor{aqua}{RGB}{0, 128, 225}
+\definecolor{beamerblue}{RGB}{50, 56, 176}
+\definecolor{beamergreen}{RGB}{15, 95, 9}
+\hypersetup{colorlinks,linkcolor=aqua,urlcolor=aqua}
 
 \setbeamertemplate{navigation symbols}{}
 \setbeamertemplate{footline}[frame number]
@@ -39,10 +43,17 @@ knitr::opts_chunk$set(
 \newcommand{\R}{{\mathcal R}}
 \newcommand{\Rn}{{\R_{0}}}
 \newcommand{\eps}{{\varepsilon}}
+\newcommand{\Tinf}{T_{\mathrm{inf}}}
+\newcommand{\Timm}{T_{\mathrm{immune}}}
+\newcommand{\redeps}{{\color{red}\eps}}
+\newcommand{\epsref}{\hyperlink{eq:R0-eps-defs}{\eps}}
 \newcommand{\Ppersist}{{\mathcal P}}
-\newcommand{\xstar}{{x^\star}}
-\newcommand{\ystar}{{y^\star}}
+\newcommand{\xstar}{{x_\star}}
+\newcommand{\ystar}{{y_\star}}
+\newcommand{\xstarref}{\hyperlink{eq:sir-endemic-equilibrium}{\xstar}}
+\newcommand{\ystarref}{\hyperlink{eq:sir-endemic-equilibrium}{\ystar}}
 \newcommand{\xin}{{x_{\rm in}}}
+\newcommand{\xinref}{\hyperlink{eq:xin}{\xin}}
 \newcommand{\Ihat}{{\hat I}}
 \newcommand{\Imin}{{I_{\rm min}}}
 \newcommand{\Oh}{{\mathcal O}}
@@ -55,9 +66,15 @@ knitr::opts_chunk$set(
 \newcommand{\tauinit}{\tau_{\rm i}}
 \newcommand{\xinit}{x_{\rm i}}
 \newcommand{\yinit}{y_{\rm i}}
+%%\newcommand{\ypeak}{\hat{y}}
+%%\newcommand{\ypeak}{y_{{}_{\mathrm{max}}}}
+\newcommand{\ypeak}{y_{{\mathrm{max}}}}
+\newcommand{\ymin}{y_{\mathrm{min}}}
 \newcommand{\xpeak}{\hat{x}}
 \newcommand{\ddx}[1]{\dd{#1}{x}}
-\newcommand{\myhyperlink}[2]{{\color{cyan}\hyperlink{#1}{#2}}}
+\newcommand{\redmu}{{\color{red}\mu}}
+\newcommand{\INTEGRAL}{{\mathcal I}}
+\newcommand{\myhyperlink}[2]{{\color{aqua}\hyperlink{#1}{#2}}}
 \newcommand{\frameendtarget}[1]{%
   \par\vskip 0pt plus 1filll\relax
   \only<.>{\hypertarget{#1}{}}%
@@ -73,7 +90,7 @@ knitr::opts_chunk$set(
   \bibentry{#1}}}
 \makeatother
 
-\title{The probability that an Emerging Infectious Disease will Burn Out}
+\title{The probability that\\an Emerging Infectious Disease\\will Burn Out}
 \author{David Earn}
 \institute{Department of Mathematics \& Statistics\\McMaster University}
 \date{SSC Annual Meeting\\McMaster University\\Monday 1 June 2026, 13:30--14:00}
@@ -109,10 +126,10 @@ knitr::opts_chunk$set(
   \frametitle{Related Publications}
 
   \footnotesize
-  \begin{itemize}
+  \begin{itemize}\itemsep20pt
     \item \bibentryplain{parsons2024burnout}
     \item \bibentryplain{parsons2024phaseplane}
-    \item \bibentryplain{parsons2023refined}
+    %%\item \bibentryplain{parsons2023refined}
   \end{itemize}
 \end{frame}
 
@@ -124,32 +141,102 @@ knitr::opts_chunk$set(
 \section{Motivation and outcomes}
 
 \begin{frame}
-  \frametitle{A Historical Benchmark}
+  \frametitle{Bombay Plague, 1905
+    \quad \parbox{18ex}{\raggedright\tiny\color{aqua} Kermack and McKendrick (1927), \emph{Proc.\ Roy.\ Soc.\/} A {\bfseries 115}(772):700--721}}
 
   \begin{columns}[c,onlytextwidth]
     \begin{column}{0.48\textwidth}
       \centering
-      \includegraphics[width=\textwidth,height=0.70\textheight,keepaspectratio]{plague_bombay.png}
+
+      %%{\bfseries Bombay Plague, 1905}
+
+      %%{\tiny\color{cyan} Kermack and McKendrick (1927) p.\,714}
+  
+      %%\includegraphics[width=\textwidth,height=0.70\textheight,keepaspectratio]{plague_bombay.png}
+      \includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{fig_KM_p714.pdf}
+      %%\includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{fig_KM_p714.png}
+      
     \end{column}
     \begin{column}{0.48\textwidth}
-      \Large
-      The classic SIR epidemic story begins with a single major outbreak.
+      Kermack and McKendrick (KM) examined a single outbreak of plague.
 
       \vspace{1.0em}
+      
       \pause
-      The persistence question starts after that outbreak.
+      {\color{beamerblue}Plague did not persist in Bombay, but KM did not consider why.}
+
+      %%\pause
+      %%The persistence question starts after that outbreak.
     \end{column}
   \end{columns}
 \end{frame}
 
 \begin{frame}
-  \frametitle{Influenza: A Major Epidemic Can End}
+  \frametitle{H1N1 Influenza Pandemic, 1918
+     %%Pneumonia \& Influenza Mortality, London England, 1918
+     \quad \parbox{17ex}{\raggedright\tiny \href{https://davidearn.mcmaster.ca/publications/HeEtAl2013a}{He, Dushoff, Day, Ma, Earn (2013), \emph{Proc.\ Roy.\ Soc.\/} B {\bfseries 280}:20131345}}}
 
-  \centering
-  \includegraphics[width=0.95\textwidth,height=0.76\textheight,keepaspectratio]{h1n1_1918.jpg}
+<<flu.settings, echo=FALSE>>=
+beamerblue <- rgb(50, 56, 176, max=255)
+@ 
 
-  \vspace{0.3em}
-  Pandemic influenza shows the rapid-rise, rapid-decline pattern.
+<<pop.interp.fun, echo=FALSE>>=
+##' @param pop data frame
+##' @param year year to interpolate to
+pop_interp <- function( pop, year ) {
+    slope <- (pop[2,2] - pop[1,2])/(pop[2,1] - pop[1,1])
+    out <- round( pop[1,2] + (year-pop[1,1])*slope )
+    return(out)
+}
+@ 
+
+<<londonpop, echo=FALSE>>=
+## https://en.wikipedia.org/wiki/Demography_of_London
+londonpop <- data.frame(year = c(1911,1921), population = c(7157875, 7553526))
+londonpop1918 <- pop_interp( londonpop, 1918 )
+@ 
+
+<<read.london.1918.data,echo=FALSE,message=FALSE>>=
+datafile <- "data/pim_uk__lon_1842-1950_wk.csv"
+lon1918data <- read.csv(datafile,header=TRUE,comment.char="#")
+lon1918data$date <- with(lon1918data,paste(year.to,month.to,day.to,sep="-"))
+lon1918data$date <- as.Date(lon1918data$date)
+@ 
+
+<<plot.lon1918.data,echo=FALSE,fig.height=4.5>>=
+par(mar=c(5, 5, 4, 2))
+with(lon1918data,{
+  pim <- influenza + pneumonia
+  min.date <- as.Date("1918-06-01")
+  max.date <- as.Date("1919-06-10")
+  plot(date,pim,
+       xlim=c(min.date,max.date),
+       typ="l",col="grey",
+       xlab="",
+       ylab="",
+       las=1,cex.lab=2,cex.axis=1.4,bty="L",
+       xaxs="i",col.lab=beamerblue,
+       )
+  cex.solid <- 0.7
+  points(date,pim,col="red",pch=19,cex=cex.solid)
+  points(date,pim,col="black",pch=1,cex=cex.solid*1.1)
+  ##mtext("Date",side=1,at=max.date,line=2,col=beamerblue,cex=2)
+  mtext("                                              Weekly Pneumonia and Influenza (P&I) Deaths in London, UK",side=3,at=min.date,line=1,col=beamerblue,cex=1.5,xpd=NA)
+})
+max.pim <- max( with(lon1918data, influenza + pneumonia), na.rm=TRUE )
+legend("topright", bty="n", 
+       legend=c("Population:", as.character(signif(londonpop1918,2)), " ",
+                "Max:", as.character(max.pim), " ",
+                "Daily max", 
+                "per 100,000:", as.character(signif(max.pim/7/londonpop1918*100000,3))
+                )
+       )
+@ 
+  \pause
+  %%\vspace{0.3em}
+
+  \vspace{-1cm}
+  \rightline{\color{beamerblue}H1N1 influenza persisted -- \bfseries why?}
 \end{frame}
 
 \begin{frame}
@@ -186,21 +273,25 @@ knitr::opts_chunk$set(
 \end{frame}
 
 \begin{frame}
-  \frametitle{Three Early Outcomes}
+  \frametitle{Three possible outcomes after a new disease invades}
 
-  \begin{description}
-    \item[Fizzle] stochastic extinction before a major epidemic.
+\setbeamertemplate{description item}{%
+  \makebox[2.5cm][l]{\insertdescriptionitem}%
+}
+
+  \begin{description}[\bfseries Persistence]\itemsep12pt
+    \item[\bfseries Fizzle] stochastic extinction before a major epidemic.
     \pause
-    \item[Burnout] stochastic extinction after a major epidemic, near the
+    \item[\bfseries Burnout] stochastic extinction after a major epidemic, near the
       post-epidemic trough.
     \pause
-    \item[Persistence] the pathogen escapes both events and produces later
+    \item[\bfseries Persistence] the pathogen escapes both events and produces later
       epidemic waves.
   \end{description}
 
   \vspace{1.2em}
-  In a finite stochastic model, eventual extinction is certain; here
-  \term{persistence} means survival past the first major trough.
+  In a finite population stochastic model, eventual extinction is certain\pause:
+    \term{persistence} means survival past the first major trough.
 \end{frame}
 
 \section{The SIR model}
@@ -220,35 +311,34 @@ knitr::opts_chunk$set(
   \includegraphics[width=0.8\textwidth]{sir_flowchart.png}
   \end{center}
 
+  \vspace{-1cm}
   \pause
   %%\makebox[\textwidth][c]{%
   %%Ordinary differential equations (ODEs):
-  \begin{equation*}
-  \text{\color{beamerblue}ODEs:} \quad
-    \ddt{S} \;=\; - \beta S I \qquad\quad
-    \ddt{I} \;=\; \beta S I - \gamma I  \qquad\quad
-    \ddt{R} \;=\; \gamma I
-  \quad \phantom{\text{ODEs:}}
-  \end{equation*}
-  %%}
-  \vspace{-10pt}
+  \begin{alignat*}{3}
+    \text{\color{beamerblue}ODEs:} \quad
+    \ddt{S} \;&=\; - \beta \frac{S I}{n}           \qquad\quad&
+    \ddt{I} \;&=\; \beta \frac{S I}{n} - \gamma I  \qquad\quad&
+    \ddt{R} \;&=\; \gamma I \\
+  \noalign{\vspace{5pt}}
+    S(\tinit) \;&=\; \sinit&
+    I(\tinit) \;&=\; \iinit&
+    R(\tinit) \;&=\; \rinit
+  \end{alignat*}
   \pause
-  %%Initial conditions:
-  \begin{equation*}
-    %%\phantom{-S}
-    S(\tinit) \;=\; \sinit \qquad\qquad\
-    I(\tinit) \;=\; \iinit \qquad\qquad\quad
-    R(\tinit) \;=\; \rinit
-  \end{equation*}
+  \emphblue{Population size:} \qquad $n \;=\; S(t)+I(t)+R(t) \;=\; \text{constant}$
 
   \bigskip
   \pause
+  \footnotesize
   \emphblue{Notational convention:}
+  \tiny
   \begin{itemize}
     \pause\item UPPER CASE (\eg $S$, $I$) $\implies$ functions
     \pause\item lower case (\eg $t$, $\sinit$, $\iinit$) $\implies$
     independent variables and values of functions at specific points
   \end{itemize}
+  \normalsize
 
   \medskip
   \pause
@@ -278,6 +368,7 @@ knitr::opts_chunk$set(
     \end{itemize}
 
   \pause\item Dimensionless parameter: \emphblue{Basic reproduction number:} \;$\Rn = \dfrac{\beta}{\gamma}$
+
   \pause
   $\Big(\parbox{10ex}{\centering\scriptsize transmission rate}\Big)
   \times \Big(\parbox{8ex}{\centering\scriptsize mean infectious period}\Big)
@@ -301,8 +392,8 @@ knitr::opts_chunk$set(
   \end{equation*}
 
   \begin{itemize}
-    \pause\item \emphblue{Peak prevalence:} \ max $Y(\tau) $ \
-    occurs when \ $X(\tau)=\dfrac{1}{\Rn}\equiv\xpeak$
+    \pause\item \emphblue{Peak prevalence:} \ $\ypeak\equiv\max Y(\tau)$ \
+    occurs when \ $X(\tau)=\xpeak\equiv\dfrac{1}{\Rn}$
   \end{itemize}
 
   \only<.>{\hypertarget{eq:SIR}{}}
@@ -360,12 +451,11 @@ knitr::opts_chunk$set(
       \bigskip
       \pause\item \emphblue{Exact solution for phase portrait} is
       \begin{equation*}
-        Y(x) \;=\; \yinit + (\xinit - x) - \xpeak\log{\frac{\xinit}{x}} \,,
+        Y(x) \;=\; \yinit + (\xinit - x) - \xpeak\log{\frac{\xinit}{x}}
       \end{equation*}
 
     \end{itemize}
   \end{itemize}
-  \pause
   \frameendtarget{eq:dYdx}
   \frameendtarget{eq:Yofx}
 \end{frame}
@@ -374,72 +464,128 @@ knitr::opts_chunk$set(
   \frametitle{\textbf{SIR model:} \ Exact $x$-$y$ phase portrait \,$Y(x)$}
 
   \begin{center}
-    \includegraphics[width=0.75\textwidth]{mbrs_sir_phase_portrait.pdf}
+    \includegraphics[width=0.6\textwidth]{mbrs_sir_phase_portrait.pdf}
   \end{center}
+
+  \begin{itemize}
+    \pause\item Final susceptible proportion $\bullet$ is smaller for larger $\Rn$
+    \pause\item Larger $\Rn$ $\implies$ all $\bullet$ move left
+  \end{itemize}
 
   \hypertarget{fig:pp}{}
 
 \end{frame}
 
 \begin{frame}
-  \frametitle{SIR With Vital Dynamics}
+  \frametitle{\textbf{SIR With Vital Dynamics\\(DETERMINISTIC)}}
 
-  Counts are natural for the epidemic model:
+  \bigskip
+  With \term{vital dynamics} (births and deaths) at \emph{per capita} rate $\redmu$\\
+  there are additional terms in the equations.  \pause In terms of counts: \pause
   \begin{equation*}\label{eq:sir-counts}
   \begin{aligned}
-  \ddt{S} &\;=\; \mu n - \beta\frac{S I}{n} - \mu S,\\
-  \ddt{I} &\;=\; \beta\frac{S I}{n} -(\gamma+\mu)I,\\
-  \ddt{R} &\;=\; \gamma I - \mu R.
+    \qquad
+    \ddt{S} \;=\; \redmu n - \beta\frac{S I}{n} - \redmu S, %\\[5pt]
+    \qquad\quad
+  \ddt{I} \;=\; \beta\frac{S I}{n} -(\gamma+\redmu)I %,\\[5pt]
+  %%\ddt{R} \;=\; \gamma I - \redmu R.
   \end{aligned}
   \end{equation*}
-
-  \pause
-  \begin{equation*}\label{eq:r0-epsilon-defs}
-  \Rn\;=\;\frac{\beta}{\gamma+\mu},
-  \qquad
-  \eps\;=\;\frac{\mu}{\gamma+\mu}
-  \;=\;
-  \frac{\text{mean infectious period}}{\text{mean lifetime}}.
-  \end{equation*}
-
-  \vspace{0.4em}
-  For acute human infections, \(\eps\) is small.
-\end{frame}
-
-\begin{frame}
-  \frametitle{Counts and Proportions}
-
-  For phase-plane geometry and the formula, use proportions:
-  \begin{equation*}\label{eq:proportion-defs}
-  X\;=\;\frac{S}{n},\qquad
-  Y\;=\;\frac{I}{n},\qquad
-  Z\;=\;\frac{R}{n}.
-  \end{equation*}
-
-  With time scaled by \(\gamma+\mu\),
+  \pause In terms of proportions\pause, with dimensionless time
+  $\tau=(\gamma+\redmu)t$,\pause
   \begin{equation*}\label{eq:sir-proportion-odes}
-  \ddtau{X}\;=\;\eps(1-X)-\Rn XY,
+  \begin{aligned}
+  \ddtau{X}\;=\;\redeps(1-X)-\Rn XY,
   \qquad
   \ddtau{Y}\;=\;(\Rn X-1)Y.
+  \end{aligned}
   \end{equation*}
-
   \pause
-  If \(\Rn>1\), the deterministic endemic equilibrium is
+  \emphblue{Dimensionless parameters:}
+  \begin{equation*}\label{eq:R0-eps-defs}
+  \Rn\;=\;\frac{\beta}{\gamma+\redmu},
+  \qquad
+  \redeps\;=\;\frac{\redmu}{\gamma+\redmu}
+  \;=\;
+  \frac{\text{\small mean infectious period}}{\text{\small mean lifetime}}
+  \; {\color{red} \sim\; 0.001}
+  \end{equation*}
+  %%\pause
+  %%For acute human infections, $\color{red}\redeps \sim 0.001$.
+  \pause
+  \emphblue{Damped oscillations onto \term{endemic equilirium}:}
   \begin{equation*}\label{eq:sir-endemic-equilibrium}
   (\xstar,\ystar)
   \;=\;
-  \left(\frac{1}{\Rn},\eps\left(1-\frac{1}{\Rn}\right)\right).
+  \left(\frac{1}{\Rn}, \;\redeps\Big(1-\frac{1}{\Rn}\Big)\right)
   \end{equation*}
-
-  \pause
-  But in a finite population, \(nY(t)\) is the expected number infectious.
 \end{frame}
 
 \begin{frame}
-  \frametitle{Individual-Based Stochastic SIR}
+  \frametitle{\textbf{Deterministic trajectories with vital dynamics}}
 
-  The same model can be interpreted as a continuous-time Markov chain:
+  \bigskip
+  \centering
+  \includegraphics[width=\textwidth]{deterministic_sir_trajectory.pdf}
 
+\end{frame}
+
+\begin{frame}
+  \frametitle{in progress}
+
+  \parskip=20pt
+
+  naively, we guess trough depth will be deeper for larger $\Rn$ because final size grows with $\Rn$ if we ignore vital dynamics
+
+  show final size graph
+
+  In fact, with vital dynamics, the trough depth increases for $1<\Rn \lesssim 2.7$ and then increases for $\Rn \gtrsim 2.7$ (!)
+  
+\end{frame}
+
+\begin{frame}
+  \frametitle{\bfseries Deterministic epidemic trough depth} % can be absurdly deep}
+  %%The Dangerous Trough
+
+  \begin{columns}[T,onlytextwidth]
+    \begin{column}{0.49\textwidth}
+      \centering
+
+      %%Prevalence $Y$ as a function\\of time $\tau$ for fixed basic reproduction number $\Rn$
+      Prevalence $Y$ \emph{vs.}\ time $\tau$\\ for fixed $\Rn$
+      
+      %%\includegraphics[width=\textwidth,height=0.68\textheight,keepaspectratio]{sir_trough_slow_infectious_period.pdf}
+      \includegraphics[width=\textwidth,height=0.68\textheight,keepaspectratio]{sir_trough_depth_time_series.pdf}
+
+      %%Longer infectious period
+      {\color{beamerblue}\textbf{shallower} for \textbf{larger} $\Rn$}
+    \end{column}
+    \pause
+    \begin{column}{0.49\textwidth}
+      \centering
+
+      %%Minimum prevalence $\ymin$\\as a function of $\Rn$ for\\fixed mean infectious period $\Tinf$
+      %%Minimum prevalence $\ymin$\\\emph{vs.}\ $\Rn$ for fixed $\Tinf$
+      $\min{Y(\tau)}$ \emph{vs.}\ $\Rn$\\for fixed $\Tinf$
+
+      %%\includegraphics[width=\textwidth,height=0.68\textheight,keepaspectratio]{sir_trough_fast_infectious_period.pdf}
+      \includegraphics[width=\textwidth,height=0.68\textheight,keepaspectratio]{sir_trough_depth_vs_R0.pdf}
+
+      %%Shorter infectious period
+      {\color{beamerblue}\textbf{shallower} for \textbf{longer} $\Tinf$}
+    \end{column}
+  \end{columns}
+
+  %% \vspace{0.3em}
+  %% Susceptible recruitment helps, but the depth and timing of the trough
+  %% determine the extinction risk.
+\end{frame}
+
+\begin{frame}
+  %%\frametitle{Individual-Based Stochastic SIR}
+  \frametitle{\textbf{SIR With Vital Dynamics\\(STOCHASTIC, INDIVDIUAL-BASED)}}
+
+  Same model interpreted as a continuous-time Markov chain:
   \begin{center}
   \small
   \begin{tabular}{lll}
@@ -450,393 +596,475 @@ knitr::opts_chunk$set(
     Recovery & \((S,I,R)\to(S,I-1,R+1)\) &
       \(\gamma I\)\\
     Death, susceptible & \((S,I,R)\to(S,I,R)\) &
-      \(\mu S\)\\
+      \(\redmu S\)\\
     Death, infectious & \((S,I,R)\to(S+1,I-1,R)\) &
-      \(\mu I\)\\
+      \(\redmu I\)\\
     Death, removed & \((S,I,R)\to(S+1,I,R-1)\) &
-      \(\mu R\)
+      \(\redmu R\)
   \end{tabular}
   \end{center}
 
-  \pause
-  States are discrete counts, so extinction is a boundary event.
+  \begin{itemize}
+  \pause\item
+  \(I(t)=n\,Y(t)\) \,is the \emphblue{expected number} of infectious individuals.
+
+  \pause\item
+  States are discrete counts\pause, so extinction is a \emphblue{boundary event}.
+
+  \pause\item
+  Deterministic geometry still matters\pause, but \emphblue{stochastic treatment is required when few individuals are infected}.
+
+  \end{itemize}
+
 \end{frame}
 
 \begin{frame}
-  \frametitle{Stochastic Trajectories Can Hit the Boundary}
+  \frametitle{\textbf{Stochastic Trajectories Can Hit the Boundary}}
 
-  \centering
-  \includegraphics[width=0.82\textwidth,height=0.72\textheight,keepaspectratio]{todd_stochastic_sir_trajectory.pdf}
-
-  \vspace{0.2em}
-  Deterministic geometry still matters, but rare infection needs a stochastic
-  approximation.
-\end{frame}
-
-\begin{frame}
-  \frametitle{The Deterministic Picture Is Not Enough}
-
-  \centering
-  \includegraphics[width=0.94\textwidth,height=0.73\textheight,keepaspectratio]{sir_ts_long.pdf}
-
-  \vspace{0.2em}
-  A deterministic trajectory can pass through troughs where \(nY(t)\)
-  is near one.
-\end{frame}
-
-\begin{frame}
-  \frametitle{The Dangerous Trough}
-
-  \begin{columns}[T,onlytextwidth]
-    \begin{column}{0.49\textwidth}
-      \centering
-      \includegraphics[width=\textwidth,height=0.68\textheight,keepaspectratio]{sir_trough_slow_infectious_period.pdf}
-
-      Longer infectious period
+  \begin{columns}[c,onlytextwidth]
+    \begin{column}{0.55\textwidth}
+      \centerline{\bfseries Time series}
+      \includegraphics[height=0.7\textheight]{todd_stochastic_sir_trajectory.pdf}
     \end{column}
-    \begin{column}{0.49\textwidth}
-      \centering
-      \includegraphics[width=\textwidth,height=0.68\textheight,keepaspectratio]{sir_trough_fast_infectious_period.pdf}
-
-      Shorter infectious period
+    \begin{column}{0.42\textwidth}
+      \begin{itemize}
+        \pause\item Deterministic trajectories have deep troughs (can be $<\frac1n$)
+        \pause\item Stochastic trajectories can go extinct near deterministic trough
+        \pause\item Identify boundary layer in which stochasticity dominates dynamics
+        \pause\item Estimate susceptible proportion at entry to boundary layer ($\xin$) via perturbation analysis in phase plane
+      \end{itemize}
     \end{column}
   \end{columns}
+\end{frame}
 
-  \vspace{0.3em}
-  Susceptible recruitment helps, but the depth and timing of the trough
-  determine the extinction risk.
+\begin{frame}
+  \frametitle{\textbf{Stochastic Trajectories Can Hit the Boundary}}
+
+  \begin{columns}[c,onlytextwidth]
+    \begin{column}{0.55\textwidth}
+      \centerline{\bfseries Time series}
+      \includegraphics[height=0.7\textheight]{todd_stochastic_sir_trajectory.pdf}
+    \end{column}
+    \begin{column}{0.42\textwidth}
+      \centerline{\bfseries Phase plane trajectory}
+      \includegraphics[width=0.5\textheight]{fig_ts_pp_xy_d-top-label.pdf}
+      \includegraphics[width=0.5\textheight]{fig_ts_pp_xy_e.pdf}
+
+      \medskip\small
+      Yellow dot (\!\includegraphics{fig_ts_pp_xy_de_yellow-dot.pdf}\!) indicates $(x,y)=(\xin,\ystarref)$, the point of entry into the boundary layer, where $y<\ystarref$
+    \end{column}
+  \end{columns}
 \end{frame}
 
 \section{Burnout Probability}
 
 \begin{frame}
-  \frametitle{Hybrid Deterministic-Stochastic Idea}
+  \frametitle{\bfseries Hybrid Deterministic-Stochastic Approach}
 
   \begin{columns}[c,onlytextwidth]
-    \begin{column}{0.55\textwidth}
-      \includegraphics[width=\textwidth,height=0.72\textheight,keepaspectratio]{boundary_layer_phase_plane.pdf}
-    \end{column}
     \begin{column}{0.42\textwidth}
+      \centerline{\bfseries Phase plane trajectory}
+      \includegraphics[width=0.5\textheight]{fig_ts_pp_xy_d-top-label.pdf}
+      \includegraphics[width=0.5\textheight]{fig_ts_pp_xy_e.pdf}
+
+      \medskip\small
+      Yellow dot (\!\includegraphics{fig_ts_pp_xy_de_yellow-dot.pdf}\!) indicates $(x,y)=(\xin,\ystarref)$, the point of entry into the boundary layer, where $y<\ystarref$
+    \end{column}
+    \begin{column}{0.55\textwidth}
       \begin{enumerate}
-        \item Follow the deterministic SIR trajectory while infection is
-          common.
-        \pause
-        \item Enter a boundary layer when infection is rare.
-        \pause
-        \item Approximate the number infectious by a time-inhomogeneous
-          birth-death process.
+        \pause\item Follow deterministic trajectory while infectious individuals are common.
+        \pause\item Use matched asymptotics in the phase plane to approximate
+        \footnotesize
+        \begin{equation*}\label{eq:xin}
+          \hspace*{-1.25em}
+          \begin{aligned}
+          {\color{red}\xin}
+          &=
+          e^{-\Rn(1-\ystarref)}
+          + \epsref e^{\Rn\ystarref} \log\frac{\ystarref}{\ypeak}
+          + \Oh(\epsref^2) \\
+          {\color{red}\ypeak}
+          &=
+          1 - \frac{1}{\Rn}(1+\ln{\Rn}) + \Oh(\epsref^2)
+          \end{aligned}
+        \end{equation*}
+        \rightline{\href{https://doi.org/10.1137/23M1576050}{\tiny Parsons \& Earn 2024, SIAP}}
+        \normalsize
+        \pause\item In the boundary layer, approximate infection dynamics by time-inhomogeneous birth-death process.
       \end{enumerate}
-
-      \vspace{0.6em}
-      The phase-plane calculation supplies the entry point \(\xin\).
     \end{column}
   \end{columns}
 \end{frame}
 
 \begin{frame}
-  \frametitle{Birth-Death Approximation Near the Boundary}
+  \frametitle{\bfseries Time-dependent birth-death process extinction}
 
-  \begin{columns}[c,onlytextwidth]
-    \begin{column}{0.37\textwidth}
-      \centering
-      \includegraphics[width=0.95\textwidth]{birth_death_process.png}
-    \end{column}
-    \begin{column}{0.58\textwidth}
-      When infectious hosts are rare, susceptible hosts are nearly
-      deterministic.
+  \footnotesize 
+  \begin{theorem}[Kendall, 1948]\label{thm:Kendall}
+    \begin{columns}[T,onlytextwidth]
+      \begin{column}{0.53\textwidth}
+        Let \(K(t)\) be a continuous-time Markov birth-death process with
+        birth rate \(b(t)\) and death rate \(d(t)\).
+        \pause
+        
+        \medskip
+        \tiny
+        Thus, writing \quad
+        \(\Delta K(t) \coloneq K(t+\Delta t)-K(t)\), \pause
+        \begin{equation*}\label{eq:kendall-transition-probabilities}
+          \begin{aligned}
+            \prob\{\Delta K(t)=+1\}
+            &\;=\; b(t)K(t)\Delta t+o(\Delta t),\\
+            \prob\{\Delta K(t)=-1\}
+            &\;=\; d(t)K(t)\Delta t+o(\Delta t).
+          \end{aligned}
+        \end{equation*}
+      \end{column}
+      
+      \begin{column}{0.4\textwidth}
+        \centering
+        \includegraphics[width=0.9\textwidth]{birth_death_process.png}
+      \end{column}
+    \end{columns}
+    
+  %%Define %%the ``discounted death pressure''
+  %% weighted harmonic mean
+  %%\begin{equation*}\label{eq:kendall-integral-A}
+  Define \qquad
+  $\displaystyle
+  \INTEGRAL
+  \;\coloneq\;
+  \int_0^\infty \frac {d(t)} {e^{\int_0^t [b(t')-d(t')]\,\dee t'}} \,\dee t
+  $ \ 
+  %%\end{equation*}
 
-      \pause
-      Infectious hosts behave approximately as independent lineages:
-      \begin{equation*}\label{eq:rare-infection-lineage-rates}
-      b(t)\;=\;\beta X(t),\qquad
-      d(t)\;=\;\gamma+\mu.
-      \end{equation*}
-
-      \pause
-      Kendall's theorem gives the extinction probability for each lineage.
-    \end{column}
-  \end{columns}
-\end{frame}
-
-\begin{frame}
-  \frametitle{Kendall's Birth-Death Result}
-
-  \small
-  \begin{theorem}[Kendall, 1948]
-  Let \(K(t)\) be a continuous-time Markov birth-death process with
-  \begin{equation*}\label{eq:kendall-transition-probabilities}
-  \begin{aligned}
-  \prob\{K(t+\Delta t)\;=\;K(t)+1\}
-  &\;=\; b(t)K(t)\Delta t+o(\Delta t),\\
-  \prob\{K(t+\Delta t)\;=\;K(t)-1\}
-  &\;=\; d(t)K(t)\Delta t+o(\Delta t).
-  \end{aligned}
-  \end{equation*}
-  If \(K(0)=1\), define
-  \begin{equation*}\label{eq:kendall-integral-A}
-  A
-  \;=\;
-  \int_0^\infty
-  e^{\int_0^s [d(u)-b(u)]\,\dee u} d(s)\,\dee s.
-  \end{equation*}
-  Then the probability of extinction in finite time is
+  \smallskip
+  Then the probability of extinction in finite time, \pause
+  starting from \(K(0)=1\), \pause
+  is
   \begin{equation*}\label{eq:kendall-extinction-probability}
-  q\;=\;\frac{A}{1+A}.
+    q\;=\;\frac{\INTEGRAL}{1+\INTEGRAL}.
   \end{equation*}
-  If \(A\) diverges, \(q=1\).  If the process does not go extinct, it
-  grows indefinitely.
+  %%If \(A\) diverges, \(q=1\).
+  \pause
+  If the process does not go extinct, it grows indefinitely.
+  \pause
+  With \(K(0)=m\), independent lineages give extinction probability \(q^m\).
   \end{theorem}
 
   \pause
-  With \(K(0)=m\), independent lineages give extinction probability \(q^m\).
+  \emphblue{Homogeneous case:}
+
+  \vspace{-\smallskipamount}
+  If $b$ and $d$ are constant, then \ $A=\dfrac{d}{b-d}$ \ and \ $q=\dfrac{d}{b}$.
 \end{frame}
 
 \begin{frame}
-  \frametitle{Fizzle: Extinction Before the First Epidemic}
+  \frametitle{\bfseries Fizzle: extinction before a first major outbreak}
 
-  At introduction, the susceptible proportion is nearly one, so one
+  At introduction, the susceptible proportion $X(0)\approx1$, so an
   infectious lineage is approximately a homogeneous birth-death process:
   \begin{equation*}\label{eq:fizzle-main-rates}
-  b\;=\;\beta,\qquad
-  d\;=\;\gamma+\mu.
+    b\;=\;\beta,
+    \qquad
+    d\;=\;\gamma+\mu
   \end{equation*}
 
   \pause
-  For one introduced infectious individual,
+  For one introduced infectious individual, the homogeneous case of
+  \hyperlink{thm:Kendall}{Kendall's theorem} yields
   \begin{equation*}\label{eq:fizzle-main-one}
-  \prob\{\text{fizzle}\}\approx \frac{1}{\Rn}.
+  \prob\{\text{fizzle}\} \;\approx\; \frac{d}{b} \;=\; \frac{1}{\Rn}
   \end{equation*}
 
   \pause
   For \(k\) introduced infectious individuals,
   \begin{equation*}\label{eq:fizzle-main-k}
-  \prob\{\text{fizzle}\}\approx \left(\frac{1}{\Rn}\right)^k,
-  \qquad
-  p_k\;=\;\prob\{\text{not fizzle}\}
-  \;=\;
-  1-\left(\frac{1}{\Rn}\right)^k.
+    \begin{aligned}
+  \prob\{\text{fizzle}\} \;&\approx\; \left(\frac{1}{\Rn}\right)^k
+  \\ \pause
+  \prob\{\text{not fizzle}\}
+  \;&\approx\;
+  1-\left(\frac{1}{\Rn}\right)^k
+  \;\equiv\;
+  p_k
+  \end{aligned}
   \end{equation*}
 \end{frame}
 
 \begin{frame}
-  \frametitle{Birth and Death Rates in the Trough}
+  \frametitle{\bfseries Burnout: extinction after major outbreak}
 
-  When infection is rare, the susceptible proportion changes mainly by
+  \footnotesize
+
+  When infection is rare, the susceptible proportion $X(t)$ changes mainly by
   demographic replenishment:
   \begin{equation*}\label{eq:susceptible-replenishment}
-  X(t) \approx 1-(1-\xin)e^{-\mu t}.
+    \begin{aligned}
+    \ddtau{X} \;&=\;\epsref(1-X)-\Rn XY \;\approx\; \epsref(1-X), \qquad X(0)=\xinref \\[5pt]
+\implies\quad  X(t) \;&\approx\; 1-(1-\xinref)e^{-\mu t}
+    \end{aligned}
   \end{equation*}
-
   \pause
   One infectious lineage then has time-dependent rates
   \begin{equation*}\label{eq:trough-birth-death-rates}
-  b(t)\;=\;\beta X(t),
+  b(t)\;=\;\beta\,X(t),
   \qquad
   d(t)\;=\;\gamma+\mu.
   \end{equation*}
 
   \pause
-  Kendall's theorem converts these rates into the probability that a
-  single infectious lineage goes extinct before susceptible recruitment
-  rescues transmission.
-\end{frame}
 
-\begin{frame}
-  \frametitle{Entry Into the Rare-Infection Layer}
-
-  Use the deterministic phase-plane trajectory until infectious hosts become
-  rare:
-  \begin{equation*}\label{eq:main-boundary-layer-entry}
-  Y\;=\;\ystar\;=\;\eps\left(1-\frac{1}{\Rn}\right),
-  \qquad
-  X\;=\;\xin.
+  \hyperlink{thm:Kendall}{Kendall's theorem} converts
+  these rates into
+  \begin{equation*}\label{eq:q-epi-context}
+    q \;=\; \frac{\INTEGRAL}{1+\INTEGRAL} \;=\;
+    \prob\left\{
+    \parbox{6cm}{a single infectious lineage goes extinct before susceptible recruitment rescues transmission}
+    \right\}
   \end{equation*}
-
   \pause
-  The phase-plane asymptotics give \(\xin\) directly.  To first useful order,
-  \begin{equation*}\label{eq:main-xin-phase-plane}
-  \xin
-  \;=\;
-  e^{-\Rn(1-\ystar)}
-  + \eps e^{\Rn\ystar}
-  \log\left(\frac{\ystar}{Y_{\max}}\right)
-  + \Oh(\eps^2).
-  \end{equation*}
-
-  \pause
-  This is the deterministic input to the stochastic burnout calculation.
-\end{frame}
-
-\begin{frame}
-  \frametitle{A Direct Burnout Approximation}
-
-  % TODO: Recheck the visible notation and transcription against Pars et al.
-  % (2024), the poster formula block, and David's preferred convention before
-  % using this as the final slide version.
-  With
-  \begin{equation*}\label{eq:burnout-za}
-  z\;=\;\frac{\Rn}{\eps}(1-\xin),
-  \qquad
-  a\;=\;\frac{\Rn}{\eps}(1-\xstar),
-  \end{equation*}
-  define
+  Using Laplace's approximation, we find
   \begin{equation*}\label{eq:burnout-B}
-  B \;=\;
-  \sqrt{\frac{2\pi}{\eps(\Rn-1)}}\,
-  \left(\frac{a}{z}\right)^a e^{z-a}.
-  \end{equation*}
-  The per-lineage burnout probability after the first epidemic is
-  \begin{equation*}\label{eq:burnout-lineage-q}
-  q \approx \left(1+\frac{1}{B}\right)^{-1}.
-  \end{equation*}
-
-  \pause
-  If \(k\) infectives are introduced,
-  \begin{equation*}\label{eq:first-wave-persistence-probability}
-  p_k \;=\; 1-\left(\frac{1}{\Rn}\right)^k,
+    \INTEGRAL
+    \;\approx\;
+  \text{\tiny$
+  \sqrt{\frac{2\pi}{\epsref(\Rn-1)}}\,
+  \left(\frac{a}{z}\right)^a e^{z-a}$},
   \qquad
-  \Ppersist_1(\Rn,\eps,n,k)
-  \;=\;
-  p_k\left(1-q^{n\ystar}\right).
+  z\;=\;
+  \text{\tiny$
+  \frac{\Rn}{\epsref}(1-\xinref)$},
+  \qquad
+  a\;=\;
+  \text{\tiny$
+  \frac{\Rn}{\epsref}(1-\hyperlink{eq:sir-endemic-equilibrium}{\xstar})$}
   \end{equation*}
+  
+  \footnotesize
+  \pause Then the \term{conditional burnout probability} (conditional on not fizzling) is
+  \begin{equation*}\label{eq:burnout-given-not-fizzle}
+        \prob\{\text{burnout} \mid \text{not fizzle}\} \;\approx\; q^{n\ystarref}
+  \end{equation*}
+  \pause
+  since \;$n\ystarref$\, is the expected number of infectives entering the \hyperlink{eq:xin}{boundary layer}.
+
 \end{frame}
 
 \begin{frame}
-  \frametitle{What Is New Computationally?}
-
-  Burnout probability has always been estimable by simulation.
+  \frametitle{\bfseries Persist: persistence beyond first wave}
 
   \pause
-  The change is that \(\Ppersist_1\) is now a direct analytical
-  approximation.
+  If \(k\) infectives are introduced:
+  \begin{equation*}\label{eq:all-probs}
+    \begin{aligned}
+      \prob\{\text{fizzle}\} \;&\approx\; \left(\frac{1}{\Rn}\right)^k
+      \\ \pause
+      \prob\{\text{not fizzle}\}
+      \;&\approx\;
+      1-\left(\frac{1}{\Rn}\right)^k
+      \quad\;\equiv\;
+      p_k
+      \\[15pt] \pause
+      \prob\{\text{burnout}\} \;&\approx\; p_k \, q^{n\ystarref}
+      \qquad\qquad
+      \left( \hyperlink{eq:q-epi-context}{q = \frac{\INTEGRAL}{1+\INTEGRAL}} \right)
+      \\[15pt] \pause
+      %% persist beyond first wave
+      \prob\{\text{persist}\} \;&\approx\; 
+      p_k\left(1-q^{n\ystarref}\right)
+      \quad\;\equiv\;
+      \Ppersist_1(\Rn,\epsref,n,k)
+    \end{aligned}
+  \end{equation*}
 
   \pause
-  \vspace{1.0em}
-  That turns a large brute-force simulation problem into a calculation
-  that is essentially immediate, so parameter-space maps become practical.
+  \bigskip
+  \emphblue{\underline{Note}:}
+  %% see PNAS eqs [28],[29] for \Ppersist_m(\Rn,\epsref,n,k), which involves \xinj rather than \xin
+  The probability of persisting beyond $m$ waves, $\Ppersist_m(\Rn,\epsref,n,k)$, is barely less than
+  $\Ppersist_1(\Rn,\epsref,n,k)$
+  \pause\\
+  (because subsequent troughs are much shallower).
+
 \end{frame}
 
 \begin{frame}
-  \frametitle{Formula and Simulation Agree}
+  \frametitle{Analytical \(\Ppersist_1\) formula agrees with simulations}
 
-  \centering
+  \footnotesize
+  \pause
+  \bigskip
+  Persistence probability \(\Ppersist_1\) is easy to estimate by ``brute force'':\pause\\
+  run many stochastic epidemic simulations and count extinctions.
+  
+  \bigskip
+  \begin{center}
+
+  \emphblue{\hspace{1.5cm}Vertical scale linear \hspace{1.5cm} Vertical scale logarithmic}
+
   \includegraphics[width=0.95\textwidth,height=0.72\textheight,keepaspectratio]{persistence_vs_r0_minus_1.pdf}
 
-  \vspace{0.3em}
-  Grey: stochastic simulations. Black: analytical approximation.
+  \hspace{1cm}$\Rn-1$\hspace{4cm}$\Rn-1$ 
+
+  %%\pause Agreement between brute force and analytical estimation is excellent:
+
+  %%\vspace{1em}\textbf{\color{gray}Grey}: stochastic simulations.  \qquad \textbf{Black}: analytical approximation.
+
+  \end{center}
+
+  \pause\medskip
+  Using the analytical approximation for \(\Ppersist_1\):
+  \begin{itemize}
+    \pause\item reduces days or weeks of simulations to seconds
+    \pause\item avoids trouble estimating small probabilities
+    \pause\item makes parameter-space maps practical
+    \pause\item reveals $\min(\Ppersist_1)$ occurs for \quad $\Rn \approx 2.57 - 27.7\epsref$
+  \end{itemize}
+
 \end{frame}
 
 \section{Consequences}
 
 \begin{frame}
-  \frametitle{Persistence Can Be Bimodal}
+  \frametitle{\bfseries Analytically calculated parameter space map}
 
-  The direct expression gives qualitative structure that is hard to see by
-  brute-force simulation.
+  \begin{columns}[T,onlytextwidth]
+    \begin{column}{0.68\textwidth}
+      \centering
+      \includegraphics[
+        width=\textwidth,
+        height=0.78\textheight,
+        keepaspectratio
+      ]{sir_persistence_contour_eta_0.pdf}
+    \end{column}
+
+    \begin{column}{0.30\textwidth}
+      \pause
+      \bigskip
+      \footnotesize
+      \emphblue{For SIR model with vital dynamics, without decay of immunity:}
+      \begin{itemize}
+        \pause\item minimum in \(\Ppersist_1\) \(\implies\) pathogens that are very weakly or very strongly transmissible are the most likely to persist
+        \pause\item persistence typically requires very long infectious periods
+      \end{itemize}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+
+\begin{frame}
+  \frametitle{\bfseries SIR verdict}
 
   \pause
-  \begin{itemize}
-    \item Persistence probability can be bimodal as a function of \(\Rn\).
-    \pause
-    \item The minimum occurs near
-      \begin{equation*}\label{eq:persistence-minimum-r0}
-      \Rn \approx 2.57 - 27.7\eps.
-      \end{equation*}
-    \pause
-    \item For a pathogen, both very low and very high transmissibility can be
-      more favourable to persistence than intermediate transmissibility.
-  \end{itemize}
-\end{frame}
+  \emphblue{Based on the standard SIR model with births and deaths:}
 
-\begin{frame}
-  \frametitle{Analytical expressions make parameter space maps possible}
+  \bigskip
 
-  \centering
-  \includegraphics[width=0.96\textwidth,height=0.72\textheight,keepaspectratio]{sir_persistence_contour_eta_0.pdf}
+  \begin{itemize}\itemsep\bigskipamount
+    \pause\item burnout is likely for most pathogens in human populations
 
-  \vspace{0.3em}
-  For SIR, susceptible recruitment alone often predicts burnout in
-  plausible human population sizes.
-\end{frame}
+    \pause\item for typical acute immunizing infections, susceptible recruitment alone is not enough to explain persistence
 
-\begin{frame}
-  \frametitle{SIR Verdict}
-
-  In the homogeneous SIR model with births and deaths:
-
-  \begin{itemize}
-    \item high \(\Rn\) helps transmission, but also depletes susceptibles
-      deeply;
-    \pause
-    \item longer infectious periods make persistence easier;
-    \pause
-    \item for many acute immunizing infections, susceptible recruitment
-      alone is not enough.
+    \pause\item next obvious generalization is the SIRS model\pause, in which immunity is not permanent \dots
   \end{itemize}
 
-  \pause
-  This is not a claim that persistence is impossible; it says the simple
-  SIR mechanism is insufficient.
+  %%\pause This is not a claim that persistence is impossible; it says the simple SIR mechanism is insufficient.
 \end{frame}
 
 \begin{frame}
-  \frametitle{What Immune Waning Changes}
+  \frametitle{\bfseries Waning immunity promotes persistence}
 
   \begin{columns}[T,onlytextwidth]
     \begin{column}{0.49\textwidth}
       \centering
+
+      \textbf{SIR: permanent immunity}
+
+      \emphblue{\footnotesize $\Timm = \infty$}
+
       \includegraphics[width=\textwidth,height=0.67\textheight,keepaspectratio]{sir_persistence_contour_eta_0.pdf}
 
-      SIR: permanent immunity
     \end{column}
     \begin{column}{0.49\textwidth}
       \centering
+
+      \textbf{SIRS: waning immunity}
+
+      \emphblue{\footnotesize $\Timm = 100\times\Tinf$}
+
       \includegraphics[width=\textwidth,height=0.67\textheight,keepaspectratio]{sirs_persistence_contour_eta_0_01.pdf}
 
-      SIRS: waning immunity
     \end{column}
   \end{columns}
 
-  \vspace{0.3em}
-  If immunity wanes on the scale of years,\\
-  the same calculation can predict persistence rather than burnout.
-\end{frame}
-
-\begin{frame}
-  \frametitle{SARS-CoV-2}
-
-  \centering
-  \includegraphics[width=0.94\textwidth,height=0.70\textheight,keepaspectratio]{sars_cov_2_eta_effect.pdf}
-
-  \vspace{0.3em}
-  In a model with immune waning and no sustained control or behavioural
-  change, burnout after successful invasion is predicted to be negligible.
-\end{frame}
-
-\begin{frame}
-  \frametitle{The Measles-Like Puzzle Remains}
-
-  SIRS helps when immunity wanes quickly enough.
-
   \pause
-  But measles-like infections have near-permanent immunity.
-
-  \pause
-  \vspace{0.8em}
-  Mechanisms still to assess include:
+  \footnotesize
   \begin{itemize}
-    \item repeated introductions;
-    \item spatial or metapopulation rescue;
-    \item heterogeneity in mixing or susceptibility;
-    \item antigenic evolution, reservoirs, or carrier states.
+    \pause\item For a one-week infectious period, right panel has expected duration of immunity $\sim2$ years
+    \pause\item SIRS model seems sufficient to explain persistence of SARS-CoV-2
   \end{itemize}
+
 \end{frame}
 
 \begin{frame}
-  \frametitle{Take-Home}
+  \frametitle{\bfseries SARS-CoV-2 persistence probability}
 
-  \begin{enumerate}
-    \item Fizzle and burnout are distinct extinction events.
+  \pause
+  \bigskip
+  \emphblue{SIRS model assumes:}
+  \begin{itemize}
+    \pause\item immune waning
+    \pause\item no control
+    \pause\item no behavioural change
+    %% burnout after successful invasion is predicted to be negligible.
+  \end{itemize}
+
+  \begin{center}
+    \emphblue{\qquad\footnotesize one-week generation interval \quad\qquad three-week generation interval}
+    
+    \includegraphics[width=0.94\textwidth,height=0.70\textheight,keepaspectratio]{sars_cov_2_eta_effect.pdf}
+  \end{center}
+
+  \emphblue{Implications for SARS-CoV-2 persistence:}
+  \begin{itemize}
+    %%\pause\item Given estimated SARS-CoV-2 generation intervals and immune periods, it was almost certain to persist after not fizzling
+    \pause\item Given that SARS-CoV-2 did \emph{not} fizzle, and the mean immune period is short, the probability that it would have burnt out if allowed to spread without control was negligible.
+  \end{itemize}
+  
+\end{frame}
+
+\begin{frame}
+  \frametitle{\bfseries Persistence of childhood infections like measles remains puzzling}
+
+\parskip=\bigskipamount
+
+\pause
+Persistence of measles and many other infectious diseases with
+permanent or near-permanent immunity cannot be explained by the SIR or
+SIRS models.
+
+\pause
+Mechanisms other than homogeneous mixing and decay of immunity must
+play a role.  \pause \emphblue{Perhaps:}
+
+\begin{itemize}
+\pause\item Multiple introductions into the host population\\
+  {\tiny(\eg {Keeling \& Gilligan 2000}, {Pulliam \emph{et al.} 2007})} %% ~\cite{Pull+07}, %KeelGill00,
+\pause\item Spatial spread among cities promoting global persistence in spite of local fadeouts\\
+  {\tiny(\eg {Dobson \& Carper 1996}, {Cross \emph{et al.} 2006})} %%~\cite{Cros+06}, %DopsCarp96, 
+  \pause\item Invasion with low $\R_0$ followed by evolution to higher $\R_0$\\
+  {\tiny(\eg {Antia \emph{et al.} 2003})} %%~\cite{Anti+03}.
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{\bfseries Take-Home}
+
+  \begin{enumerate}\itemsep10pt
+    \pause
+   \item Fizzle and burnout are distinct extinction events.
     \pause
     \item Burnout is governed by rare infectious lineages in the
       post-epidemic trough.
@@ -844,12 +1072,48 @@ knitr::opts_chunk$set(
     \item Kendall's theorem plus deterministic epidemic geometry yields a
       direct analytical approximation for SIR and SIRS burnout probability.
     \pause
+    \item New analytical expressions faciliate detailed exploration of
+      persistence probability in parameter space
+    \pause
     \item Births alone are often insufficient, but immune waning can be
       sufficient, as in the SARS-CoV-2 example.
     \pause
     \item Measles-like persistence remains a key puzzle.
   \end{enumerate}
 \end{frame}
+
+\begin{frame}
+  \huge
+  \begin{center}
+    {\color{beamerblue}\bfseries Thanks}
+
+    \bigskip
+    %%\raisebox{9pt}{\parbox{2.1in}{\centering\footnotesize
+    \Large
+      Todd Parsons, 
+      Jonathan Dushoff, 
+      Ben Bolker
+      %%}}
+
+    \bigskip
+    \includegraphics[height=1cm]{nserc.jpg}
+    \quad
+
+  \end{center}
+
+  \vfill
+  \pause
+  \centerline{\color{beamerblue}\bfseries Questions?}
+  \vfill
+
+  \normalsize
+  \centerline{\color{black}\texttt{earn@math.mcmaster.ca}}
+  \centerline{\url{https://davidearn.mcmaster.ca}}
+\end{frame}
+
+\frame{}
+
+\appendix
 
 \begin{frame}
   \frametitle{Related Publications to Date}
@@ -863,110 +1127,28 @@ knitr::opts_chunk$set(
 \end{frame}
 
 \begin{frame}
-  \huge
-  \begin{center}
-    {\color{beamerblue}\bfseries Thanks}
-
-    \bigskip
-    \includegraphics[height=1cm]{nserc.jpg}
-    \quad
-    \raisebox{9pt}{\parbox{2.1in}{\centering\footnotesize
-      Todd Parsons\\
-      Jonathan Dushoff\\
-      Ben Bolker}}
-  \end{center}
-
-  \vfill
-  \pause
-  \centerline{\color{beamerblue}\bfseries Questions?}
-  \vfill
-
-  \normalsize
-  \centerline{\color{black}\texttt{earn@math.mcmaster.ca}}
-  \centerline{\url{https://davidearn.mcmaster.ca}}
-\end{frame}
-
-\appendix
-
-\begin{frame}
-  \frametitle{Backup: Fizzle Probability}
-
-  At the start of invasion, \(X(0)\approx1\), so one infectious lineage is
-  approximately a homogeneous birth-death process with
-  \begin{equation*}\label{eq:fizzle-birth-death-rates}
-  b\;=\;\beta,
-  \qquad
-  d\;=\;\gamma+\mu.
-  \end{equation*}
-
-  \pause
-  The extinction probability for one lineage is
-  \begin{equation*}\label{eq:fizzle-one-lineage}
-  \frac{d}{b}\;=\;\frac{1}{\Rn}.
-  \end{equation*}
-
-  \pause
-  With \(k\) introduced infectives,
-  \begin{equation*}\label{eq:fizzle-probability}
-  \prob\{\text{fizzle}\}\approx \left(\frac{1}{\Rn}\right)^k,
-  \qquad
-  p_k\;=\;\prob\{\text{not fizzle}\}
-  \;=\;
-  1-\left(\frac{1}{\Rn}\right)^k.
-  \end{equation*}
-\end{frame}
-
-\begin{frame}
-  \frametitle{Backup: The Entry Point \(\xin\)}
-
-  The formula needs the susceptible proportion at entry into the rare
-  infection layer:
-  \begin{equation*}\label{eq:boundary-layer-entry}
-  Y\;=\;\ystar\;=\;\eps\left(1-\frac{1}{\Rn}\right),
-  \qquad
-  X\;=\;\xin.
-  \end{equation*}
-
-  \pause
-  The SIAP phase-plane approximation supplies \(\xin\) analytically.
-
-  \pause
-  \begin{equation*}\label{eq:xin-phase-plane-approximation}
-  \xin \;=\;
-  e^{-\Rn(1-\ystar)}
-  + \eps e^{\Rn\ystar}
-  \log\left(\frac{\ystar}{Y_{\max}}\right)
-  + \Oh(\eps^2).
-  \end{equation*}
-
-  % TODO: Decide later whether this belongs in the main deck or should remain
-  % backup; it is background machinery rather than the main biological point.
-\end{frame}
-
-\begin{frame}
   \frametitle{Backup: Conditional Burnout Form}
 
   The conditional burnout probability after not fizzling can be written as
   \begin{equation*}\label{eq:conditional-burnout-q}
   \prob\{\text{burnout}\mid\text{not fizzle}\}
   \approx
-  q^{n\ystar}.
+  q^{n\ystarref}.
   \end{equation*}
 
   \pause
   Equivalently, using the Laplace approximation directly,
   \begin{equation*}\label{eq:conditional-burnout-laplace}
   \exp\left[
-  -n\ystar
-  \sqrt{\frac{\eps(\Rn-1)}{2\pi}}\,
-  e^{-\frac{\Rn}{\eps}(\frac{1}{\Rn}-\xin)}
+  -n\ystarref
+  \sqrt{\frac{\epsref(\Rn-1)}{2\pi}}\,
+  e^{-\frac{\Rn}{\epsref}(\frac{1}{\Rn}-\xinref)}
   \left(
-  \frac{1-\xin}{1-\frac{1}{\Rn}}
-  \right)^{\frac{\Rn}{\eps}(1-\frac{1}{\Rn})}
+  \frac{1-\xinref}{1-\frac{1}{\Rn}}
+  \right)^{\frac{\Rn}{\epsref}(1-\frac{1}{\Rn})}
   \right].
   \end{equation*}
 
-  % TODO: Check which algebraic form David prefers for visibility.
 \end{frame}
 
 \begin{frame}
