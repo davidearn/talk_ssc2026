@@ -240,44 +240,24 @@ legend("topright", bty="n",
 \end{frame}
 
 \begin{frame}
-  \frametitle{After the First Epidemic}
-
-  \begin{columns}[c,onlytextwidth]
-    \begin{column}{0.50\textwidth}
-      \includegraphics[width=\textwidth]{measles_cycles.jpg}
-    \end{column}
-    \begin{column}{0.46\textwidth}
-      \Large
-      Some pathogens recur.
-
-      \vspace{1.0em}
-      \pause
-      Others disappear.
-
-      \vspace{1.0em}
-      \pause
-      What determines whether a new infection survives the trough after
-      its first major epidemic?
-    \end{column}
-  \end{columns}
-\end{frame}
-
-\begin{frame}
   \frametitle{SARS-CoV-2: Persistence After Invasion}
 
-  \centering
-  \includegraphics[width=0.95\textwidth,height=0.76\textheight,keepaspectratio]{world_covid_weekly.pdf}
+  \begin{center}
+    \includegraphics[width=0.95\textwidth,height=0.76\textheight,keepaspectratio]{world_covid_weekly.pdf}
+  \end{center}
 
-  \vspace{0.3em}
-  Some pathogens survive the dangerous post-invasion trough.
+  \bigskip
+  \emphblue{Would SARS-CoV-2 have persisted if we had allowed it to spread without any control measures?}
+  
+  %%Some pathogens survive the dangerous post-invasion trough.
 \end{frame}
 
 \begin{frame}
   \frametitle{Three possible outcomes after a new disease invades}
 
-\setbeamertemplate{description item}{%
-  \makebox[2.5cm][l]{\insertdescriptionitem}%
-}
+  \setbeamertemplate{description item}{%
+    \makebox[2.5cm][l]{\insertdescriptionitem}%
+  }
 
   \begin{description}[\bfseries Persistence]\itemsep12pt
     \item[\bfseries Fizzle] stochastic extinction before a major epidemic.
@@ -531,20 +511,55 @@ legend("topright", bty="n",
 \end{frame}
 
 \begin{frame}
-  \frametitle{in progress}
+  \frametitle{\bfseries Deterministic epidemic trough depth -- intuition}
 
-  \parskip=20pt
+  \begin{columns}[T,onlytextwidth]
+    \begin{column}{0.45\textwidth}
+      Without vital dynamics, the \term{final size} \pause (total proportion infected during the epidemic)
+      %% (cumulative infected proportion)
+      grows monotonically with \(\Rn\)\pause,
+      and very low prevalence is reached quickly.
 
-  naively, we guess trough depth will be deeper for larger $\Rn$ because final size grows with $\Rn$ if we ignore vital dynamics
+      \pause
+      \medskip
 
-  show final size graph
+      \centering
+      \includegraphics[
+        width=0.95\textwidth,
+        height=0.55\textheight,
+        keepaspectratio
+      ]{code/finalsize.pdf}
+    \end{column}
 
-  In fact, with vital dynamics, the trough depth increases for $1<\Rn \lesssim 2.7$ and then increases for $\Rn \gtrsim 2.7$ (!)
-  
+    \begin{column}{0.47\textwidth}
+      \pause
+      \pmb{$\therefore$} With vital dynamics, inter-epidemic troughs are
+      expected to be deeper (lower prevalence) for larger \(\Rn\).
+
+      \pause
+      \bigskip
+
+      \pmb{$\therefore$} We expect persistence to be less likely for
+      larger $\Rn$.
+
+      \pause
+      \bigskip
+
+      In fact, the prevalence trough gets deeper for $\Rn$ from 1 to
+      $\approx2.5$, but then gets
+      \emph{\color{beamerblue}\underline{shallower}} for higher $\Rn$.
+
+      \pause
+      \bigskip
+
+      $\implies$ \emphblue{The relationship between transmissibility and
+      \emph{\underline{persistence}} is not monotone.}
+    \end{column}
+  \end{columns}
 \end{frame}
 
 \begin{frame}
-  \frametitle{\bfseries Deterministic epidemic trough depth} % can be absurdly deep}
+  \frametitle{\bfseries Deterministic epidemic trough depth -- reality}
   %%The Dangerous Trough
 
   \begin{columns}[T,onlytextwidth]
@@ -604,7 +619,7 @@ legend("topright", bty="n",
   \end{tabular}
   \end{center}
 
-  \begin{itemize}
+  \begin{itemize}\itemsep\medskipamount
   \pause\item
   \(I(t)=n\,Y(t)\) \,is the \emphblue{expected number} of infectious individuals.
 
@@ -756,7 +771,7 @@ legend("topright", bty="n",
   \emphblue{Homogeneous case:}
 
   \vspace{-\smallskipamount}
-  If $b$ and $d$ are constant, then \ $A=\dfrac{d}{b-d}$ \ and \ $q=\dfrac{d}{b}$.
+  If $b$ and $d$ are constant, then \ $\INTEGRAL=\dfrac{d}{b-d}$ \ and \ $q=\dfrac{d}{b}$.
 \end{frame}
 
 \begin{frame}
@@ -852,7 +867,7 @@ legend("topright", bty="n",
 \end{frame}
 
 \begin{frame}
-  \frametitle{\bfseries Persist: persistence beyond first wave}
+  \frametitle{\bfseries Persistence: persist beyond first wave}
 
   \pause
   If \(k\) infectives are introduced:
@@ -1073,12 +1088,13 @@ play a role.  \pause \emphblue{Perhaps:}
       direct analytical approximation for SIR and SIRS burnout probability.
     \pause
     \item New analytical expressions faciliate detailed exploration of
-      persistence probability in parameter space
+      persistence probability in parameter space.
     \pause
     \item Births alone are often insufficient, but immune waning can be
       sufficient, as in the SARS-CoV-2 example.
     \pause
-    \item Measles-like persistence remains a key puzzle.
+    \item Persistence of measles and other acute, immunizing
+      infections remains a key puzzle.
   \end{enumerate}
 \end{frame}
 
@@ -1127,7 +1143,7 @@ play a role.  \pause \emphblue{Perhaps:}
 \end{frame}
 
 \begin{frame}
-  \frametitle{Backup: Conditional Burnout Form}
+  \frametitle{Conditional Burnout Form}
 
   The conditional burnout probability after not fizzling can be written as
   \begin{equation*}\label{eq:conditional-burnout-q}
@@ -1152,7 +1168,7 @@ play a role.  \pause \emphblue{Perhaps:}
 \end{frame}
 
 \begin{frame}
-  \frametitle{Backup: Why Contours Are Expensive by Simulation}
+  \frametitle{Why Contours Are Expensive by Simulation}
 
   A single persistence probability estimate requires many stochastic
   outbreaks, each followed through the dangerous trough.
