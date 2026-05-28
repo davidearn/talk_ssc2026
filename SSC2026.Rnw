@@ -1127,9 +1127,9 @@ play a role.  \pause \emphblue{Perhaps:}
   \centerline{\url{https://davidearn.mcmaster.ca}}
 \end{frame}
 
-\frame{}
-
 \appendix
+
+\frame{}
 
 \begin{frame}
   \frametitle{Related Publications to Date}
