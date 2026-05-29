@@ -103,7 +103,25 @@ knitr::opts_chunk$set(
 \savebox{\sscBibliographyBox}{\parbox{0pt}{\nobibliography{SSC2026}}}
 
 \begin{frame}
-  \titlepage
+  \centering
+  \vspace*{-0.5cm}
+  \makebox[\textwidth][c]{%
+    \includegraphics[width=\paperwidth,height=0.88\paperheight,keepaspectratio]{images/burnout_cartoon.png}%
+  }
+
+  \vspace*{-0.87\paperheight}
+  {\Large\bfseries\color{beamerblue}\inserttitle\par}
+
+  \vspace{0.15cm}
+  \hfill
+  \begin{minipage}{0.58\textwidth}
+    \raggedleft
+    {\large\insertauthor\par}
+    \vspace{0.2em}
+    {\footnotesize\insertinstitute\par}
+    \vspace{0.45em}
+    {\footnotesize\insertdate\par}
+  \end{minipage}
 \end{frame}
 
 \begin{frame}
