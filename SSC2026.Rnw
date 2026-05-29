@@ -14,6 +14,7 @@ knitr::opts_chunk$set(
 \usepackage{amsmath,amssymb}
 \usepackage{mathtools} % \coloneq
 \usepackage{graphicx}
+\usepackage{tikz}
 \usepackage{hyperref}
 \usepackage{bibentry}
 \usepackage{appendixnumberbeamer}
@@ -103,25 +104,40 @@ knitr::opts_chunk$set(
 \savebox{\sscBibliographyBox}{\parbox{0pt}{\nobibliography{SSC2026}}}
 
 \begin{frame}
-  \centering
-  %%\vspace*{-0.5cm}
-  \makebox[\textwidth][c]{%
-    \includegraphics[width=\paperwidth,height=0.88\paperheight,keepaspectratio]{images/burnout_cartoon.png}%
-  }
+  \begingroup
+  %% Title-slide positioning controls.
+  %% For the cartoon, positive yshift moves up and negative yshift moves down.
+  %% For the title and metadata, yshift is measured down from the top edge:
+  %% less negative moves up and more negative moves down.
+  \newcommand{\titleCartoonYShift}{-0.35cm}
+  \newcommand{\titleCartoonHeight}{0.88\paperheight}
+  \newcommand{\titleTextYShift}{-0.48cm}
+  \newcommand{\titleMetaXShift}{-0.55cm}
+  \newcommand{\titleMetaYShift}{-3.05cm}
+  \newcommand{\titleMetaWidth}{0.58\paperwidth}
 
-  \vspace*{-0.87\paperheight}
-  {\Large\bfseries\color{beamerblue}\inserttitle\par}
+  \begin{tikzpicture}[remember picture,overlay]
+    \node[anchor=center,inner sep=0pt,yshift=\titleCartoonYShift]
+      at (current page.center)
+      {\includegraphics[width=\paperwidth,height=\titleCartoonHeight,keepaspectratio]{images/burnout_cartoon.png}};
 
-  \vspace{0.15cm}
-  \hfill
-  \begin{minipage}{0.58\textwidth}
-    \raggedleft
-    {\large\insertauthor\par}
-    \vspace{0.2em}
-    {\footnotesize\insertinstitute\par}
-    \vspace{0.45em}
-    {\footnotesize\insertdate\par}
-  \end{minipage}
+    \node[anchor=north,align=center,inner sep=0pt,text=beamerblue,
+          font=\Large\bfseries,text width=0.92\paperwidth,
+          yshift=\titleTextYShift]
+      at (current page.north)
+      {\inserttitle};
+
+    \node[anchor=north east,align=right,inner sep=0pt,
+          text width=\titleMetaWidth,
+          xshift=\titleMetaXShift,yshift=\titleMetaYShift]
+      at (current page.north east)
+      {{\large\insertauthor\par}
+       \vspace{0.2em}
+       {\footnotesize\insertinstitute\par}
+       \vspace{0.45em}
+       {\footnotesize\insertdate\par}};
+  \end{tikzpicture}
+  \endgroup
 \end{frame}
 
 \begin{frame}
