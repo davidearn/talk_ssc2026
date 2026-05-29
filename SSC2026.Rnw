@@ -109,7 +109,8 @@ knitr::opts_chunk$set(
   %% For the cartoon, positive yshift moves up and negative yshift moves down.
   %% For the title and metadata, yshift is measured down from the top edge:
   %% less negative moves up and more negative moves down.
-  \newcommand{\titleCartoonYShift}{-0.35cm}
+  %%\newcommand{\titleCartoonYShift}{-0.35cm}
+  \newcommand{\titleCartoonYShift}{-1cm}
   \newcommand{\titleCartoonHeight}{0.88\paperheight}
   \newcommand{\titleTextYShift}{-0.48cm}
   \newcommand{\titleMetaXShift}{-0.55cm}
