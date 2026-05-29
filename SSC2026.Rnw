@@ -1,5 +1,5 @@
-%%\documentclass{beamer}
-\documentclass[handout]{beamer}
+\documentclass{beamer}
+%%\documentclass[handout]{beamer}
 
 <<setup, include=FALSE>>=
 knitr::opts_chunk$set(
@@ -284,6 +284,7 @@ legend("topright", bty="n",
   \end{center}
 
   \bigskip
+  \pause
   \emphblue{Would SARS-CoV-2 have persisted if we had allowed it to spread without any control measures?}
   
   %%Some pathogens survive the dangerous post-invasion trough.
@@ -552,7 +553,7 @@ legend("topright", bty="n",
 
   \begin{columns}[T,onlytextwidth]
     \begin{column}{0.45\textwidth}
-      Without vital dynamics, the \term{final size} \pause (total proportion infected during the epidemic)
+      Without vital dynamics, the \term{final size} (total proportion infected during the epidemic) \pause
       %% (cumulative infected proportion)
       grows monotonically with \(\Rn\)\pause,
       and very low prevalence is reached quickly.
@@ -590,7 +591,7 @@ legend("topright", bty="n",
       \bigskip
 
       $\implies$ \emphblue{The relationship between transmissibility and
-      \emph{\underline{persistence}} is not monotone.}
+      \emph{\underline{persistence}} is not monotonic.}
     \end{column}
   \end{columns}
 \end{frame}
