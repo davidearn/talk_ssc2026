@@ -10,6 +10,14 @@ SSC2026.tex
 *.snm
 *.toc
 *.vrb
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+*.tikz
+*-tikzDictionary
+*.bcf
+*.run.xml
+*.ent
 
 cache/
 figure/
