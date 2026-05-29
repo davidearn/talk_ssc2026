@@ -48,14 +48,14 @@ knitr::opts_chunk$set(
 \newcommand{\Tinf}{T_{\mathrm{inf}}}
 \newcommand{\Timm}{T_{\mathrm{immune}}}
 \newcommand{\redeps}{{\color{red}\eps}}
-\newcommand{\epsref}{\hyperlink{eq:R0-eps-defs}{\eps}}
+\newcommand{\epsref}{\hyperlink{target:eps}{\eps}}
 \newcommand{\Ppersist}{{\mathcal P}}
 \newcommand{\xstar}{{x_\star}}
 \newcommand{\ystar}{{y_\star}}
-\newcommand{\xstarref}{\hyperlink{eq:sir-endemic-equilibrium}{\xstar}}
-\newcommand{\ystarref}{\hyperlink{eq:sir-endemic-equilibrium}{\ystar}}
+\newcommand{\xstarref}{\hyperlink{target:xstar}{\xstar}}
+\newcommand{\ystarref}{\hyperlink{target:ystar}{\ystar}}
 \newcommand{\xin}{{x_{\rm in}}}
-\newcommand{\xinref}{\hyperlink{eq:xin}{\xin}}
+\newcommand{\xinref}{\hyperlink{target:xin}{\xin}}
 \newcommand{\Ihat}{{\hat I}}
 \newcommand{\Imin}{{I_{\rm min}}}
 \newcommand{\Oh}{{\mathcal O}}
@@ -77,9 +77,10 @@ knitr::opts_chunk$set(
 \newcommand{\redmu}{{\color{red}\mu}}
 \newcommand{\INTEGRAL}{{\mathcal I}}
 \newcommand{\myhyperlink}[2]{{\color{aqua}\hyperlink{#1}{#2}}}
-\newcommand{\frameendtarget}[1]{%
+\newcommand<>{\overlaytarget}[1]{\only#2{\hypertarget{#1}{}}}
+\newcommand<>{\frameendtarget}[1]{%
   \par\vskip 0pt plus 1filll\relax
-  \only<.>{\hypertarget{#1}{}}%
+  \overlaytarget#2{#1}%
 }
 \newcommand{\emphblue}[1]{{\color{structure.fg}\emph{#1}}}
 \newcommand{\codex}[1]{{\color{red}#1}}
@@ -414,7 +415,7 @@ legend("topright", bty="n",
     occurs when \ $X(\tau)=\xpeak\equiv\dfrac{1}{\Rn}$
   \end{itemize}
 
-  \only<.>{\hypertarget{eq:SIR}{}}
+  \frameendtarget<12>{eq:SIR}
 
 \end{frame}
 
@@ -474,8 +475,8 @@ legend("topright", bty="n",
 
     \end{itemize}
   \end{itemize}
-  \frameendtarget{eq:dYdx}
-  \frameendtarget{eq:Yofx}
+  \frameendtarget<10>{eq:dYdx}
+  \frameendtarget<10>{eq:Yofx}
 \end{frame}
 
 \begin{frame}
@@ -490,7 +491,7 @@ legend("topright", bty="n",
     \pause\item Larger $\Rn$ $\implies$ all $\bullet$ move left
   \end{itemize}
 
-  \hypertarget{fig:pp}{}
+  \overlaytarget<3>{fig:pp}
 
 \end{frame}
 
@@ -528,6 +529,7 @@ legend("topright", bty="n",
   \frac{\text{\small mean infectious period}}{\text{\small mean lifetime}}
   \; {\color{red} \sim\; 0.001}
   \end{equation*}
+  \overlaytarget<7>{target:eps}
   %%\pause
   %%For acute human infections, $\color{red}\redeps \sim 0.001$.
   \pause
@@ -537,6 +539,8 @@ legend("topright", bty="n",
   \;=\;
   \left(\frac{1}{\Rn}, \;\redeps\Big(1-\frac{1}{\Rn}\Big)\right)
   \end{equation*}
+  \overlaytarget<8>{target:xstar}
+  \overlaytarget<8>{target:ystar}
 \end{frame}
 
 \begin{frame}
@@ -741,6 +745,7 @@ legend("topright", bty="n",
           1 - \frac{1}{\Rn}(1+\ln{\Rn}) + \Oh(\epsref^2)
           \end{aligned}
         \end{equation*}
+        \overlaytarget<3>{target:xin}
         \rightline{\href{https://doi.org/10.1137/23M1576050}{\tiny Parsons \& Earn 2024, SIAP}}
         \normalsize
         \pause\item In the boundary layer, approximate infection dynamics by time-inhomogeneous birth-death process.
@@ -891,7 +896,7 @@ legend("topright", bty="n",
   \qquad
   a\;=\;
   \text{\tiny$
-  \frac{\Rn}{\epsref}(1-\hyperlink{eq:sir-endemic-equilibrium}{\xstar})$}
+  \frac{\Rn}{\epsref}(1-\hyperlink{target:xstar}{\xstar})$}
   \end{equation*}
   
   \footnotesize
@@ -900,7 +905,7 @@ legend("topright", bty="n",
         \prob\{\text{burnout} \mid \text{not fizzle}\} \;\approx\; q^{n\ystarref}
   \end{equation*}
   \pause
-  since \;$n\ystarref$\, is the expected number of infectives entering the \hyperlink{eq:xin}{boundary layer}.
+  since \;$n\ystarref$\, is the expected number of infectives entering the \hyperlink{target:xin}{boundary layer}.
 
 \end{frame}
 
