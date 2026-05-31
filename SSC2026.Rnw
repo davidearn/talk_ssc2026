@@ -76,6 +76,8 @@ knitr::opts_chunk$set(
 \newcommand{\ddx}[1]{\dd{#1}{x}}
 \newcommand{\redmu}{{\color{red}\mu}}
 \newcommand{\INTEGRAL}{{\mathcal I}}
+\usepackage{xspace}
+\newcommand{\whitebullet}{\raisebox{1pt}{\small o}\xspace}
 \newcommand{\myhyperlink}[2]{{\color{aqua}\hyperlink{#1}{#2}}}
 \newcommand<>{\overlaytarget}[1]{\only#2{\hypertarget{#1}{}}}
 \newcommand<>{\frameendtarget}[1]{%
@@ -183,7 +185,7 @@ knitr::opts_chunk$set(
     \quad \parbox{18ex}{\raggedright\tiny\color{aqua} Kermack and McKendrick (1927), \emph{Proc.\ Roy.\ Soc.\/} A {\bfseries 115}(772):700--721}}
 
   \begin{columns}[c,onlytextwidth]
-    \begin{column}{0.48\textwidth}
+    \begin{column}{0.5\textwidth}
       \centering
 
       %%{\bfseries Bombay Plague, 1905}
@@ -191,22 +193,47 @@ knitr::opts_chunk$set(
       %%{\tiny\color{cyan} Kermack and McKendrick (1927) p.\,714}
   
       %%\includegraphics[width=\textwidth,height=0.70\textheight,keepaspectratio]{plague_bombay.png}
-      \includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{fig_KM_p714.pdf}
+      \includegraphics[height=0.85\textheight,keepaspectratio]{fig_KM_p714.pdf}
       %%\includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{fig_KM_p714.png}
       
     \end{column}
-    \begin{column}{0.48\textwidth}
-      Kermack and McKendrick (KM) examined a single outbreak of plague.
+    \begin{column}{0.35\textwidth}
+      Kermack and McKendrick (1927) examined a single outbreak of plague.
 
-      \vspace{1.0em}
+      \bigskip
       
-      \pause
-      {\color{beamerblue}Plague did not persist in Bombay, but KM did not consider why.}
+      {\color{beamerblue}Plague did not persist in Bombay, but they did not consider \emph{\bfseries why}.}
 
       %%\pause
       %%The persistence question starts after that outbreak.
     \end{column}
   \end{columns}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Measles in Iceland
+        \quad \parbox{12ex}{\raggedright\tiny\color{aqua} Cliff and Haggett (1980), \emph{J.\ Hyg., Camb.\/} {\bfseries 85}:451}}
+
+  \begin{columns}[c,onlytextwidth]
+    \begin{column}{0.6\textwidth}
+      \begin{flushleft}
+        \includegraphics[height=0.9\textheight]{measles-in-denmark-and-iceland_ClifHagg80.pdf}
+      \end{flushleft}
+    \end{column}
+    \begin{column}{0.4\textwidth}
+      Cliff and Haggett (1980) found that measles historically:
+      \begin{itemize}
+      \item persisted in most places
+      \item burnt out after each new introduction to Iceland
+      \end{itemize}
+
+      \bigskip
+
+      \emphblue{\bfseries Why?}
+
+    \end{column}
+  \end{columns}
+  
 \end{frame}
 
 \begin{frame}
@@ -270,11 +297,9 @@ legend("topright", bty="n",
                 )
        )
 @ 
-  \pause
-  %%\vspace{0.3em}
 
   \vspace{-1cm}
-  \rightline{\color{beamerblue}H1N1 influenza persisted -- \bfseries why?}
+  \rightline{\color{beamerblue}H1N1 influenza persisted. \ \bfseries \emph{Why}\/?}
 \end{frame}
 
 \begin{frame}
@@ -284,9 +309,8 @@ legend("topright", bty="n",
     \includegraphics[width=0.95\textwidth,height=0.76\textheight,keepaspectratio]{world_covid_weekly.pdf}
   \end{center}
 
-  \bigskip
-  \pause
-  \emphblue{Would SARS-CoV-2 have persisted if we had allowed it to spread without any control measures?}
+  \smallskip
+  \emphblue{\bfseries Would SARS-CoV-2 have persisted if we had allowed it to spread without any control measures?}
   
   %%Some pathogens survive the dangerous post-invasion trough.
 \end{frame}
@@ -308,9 +332,10 @@ legend("topright", bty="n",
       epidemic waves.
   \end{description}
 
-  \vspace{1.2em}
-  In a finite population stochastic model, eventual extinction is certain\pause:
-    \term{persistence} means survival past the first major trough.
+  \bigskip
+  \pause
+  In a finite population stochastic model, eventual extinction is certain:
+    \term{\bfseries persistence} means survival past the trough that follows the first major epidemic.
 \end{frame}
 
 \section{The SIR model}
@@ -330,44 +355,52 @@ legend("topright", bty="n",
   \includegraphics[width=0.8\textwidth]{sir_flowchart.png}
   \end{center}
 
-  \vspace{-1cm}
+  \vspace{-0.5cm}
   \pause
   %%\makebox[\textwidth][c]{%
   %%Ordinary differential equations (ODEs):
-  \begin{alignat*}{3}
-    \text{\color{beamerblue}ODEs:} \quad
-    \ddt{S} \;&=\; - \beta \frac{S I}{n}           \qquad\quad&
-    \ddt{I} \;&=\; \beta \frac{S I}{n} - \gamma I  \qquad\quad&
-    \ddt{R} \;&=\; \gamma I \\
-  \noalign{\vspace{5pt}}
-    S(\tinit) \;&=\; \sinit&
-    I(\tinit) \;&=\; \iinit&
-    R(\tinit) \;&=\; \rinit
-  \end{alignat*}
-  \pause
-  \emphblue{Population size:} \qquad $n \;=\; S(t)+I(t)+R(t) \;=\; \text{constant}$
-
-  \bigskip
-  \pause
   \footnotesize
-  \emphblue{Notational convention:}
-  \tiny
-  \begin{itemize}
-    \pause\item UPPER CASE (\eg $S$, $I$) $\implies$ functions
-    \pause\item lower case (\eg $t$, $\sinit$, $\iinit$) $\implies$
-    independent variables and values of functions at specific points
-  \end{itemize}
+  \begin{alignat*}{3}
+    \hspace{-1.5cm}
+    \text{\normalsize\color{beamerblue}ODEs:} \quad
+    \ddt{S} &= - \beta \frac{S I}{n}           \qquad\qquad&
+    \ddt{I} &= \beta \frac{S I}{n} - \gamma I  \qquad\qquad&
+    \ddt{R} &= \gamma I
+  %%   \\
+  %% \noalign{\vspace{5pt}}
+  %%   S(\tinit) \;&=\; \sinit&
+  %%   I(\tinit) \;&=\; \iinit&
+  %%   R(\tinit) \;&=\; \rinit
+  \end{alignat*}
   \normalsize
+  %%\pause
+  %%\emphblue{Population size:} \qquad $n \;=\; S(t)+I(t)+R(t) \;=\; \text{constant}$
+
+  %% \bigskip
+  %% \pause
+  %% \footnotesize
+  %% \emphblue{Notational convention:}
+  %% \tiny
+  %% \begin{itemize}
+  %%   \pause\item UPPER CASE (\eg $S$, $I$) $\implies$ functions
+  %%   \pause\item lower case (\eg $t$, $\sinit$, $\iinit$) $\implies$
+  %%   independent variables and values of functions at specific points
+  %% \end{itemize}
+  %% \normalsize
 
   \medskip
   \pause
-  \emphblue{Parameters:}
+  \emphblue{Fixed parameters:}
   \begin{itemize}
-  \pause\item
+  \item
+  {Population size:} \ $n$
+  \qquad\qquad
+  ($n=S(t)+I(t)+R(t)$)
+  \item
   {Transmission rate:} \ $\beta$
-  \pause\item
+  \item
   {Recovery rate:} \ $\gamma$
-  \pause \qquad\qquad
+  \qquad\qquad
   ($\frac{1}{\gamma} = \text{mean infectious period}$)
   \end{itemize}
 
@@ -375,33 +408,25 @@ legend("topright", bty="n",
 
 \begin{frame}
   \frametitle{\textbf{SIR model:} in dimensionless, proportional form}
-
+  
   \small
   \begin{itemize}\itemsep3pt
-    \pause\item Total population: $\Npop = S + I + R$
+    
+    \pause\item \emphblue{State variables} scale out population size: \ $X = \dfrac{S}{\Npop}$, \ $Y = \dfrac{I}{\Npop}$
+    
+    \pause\item \emphblue{Time variable} scales out mean infectious period: \ $\tau = \gamma t$
 
-    \pause\item State variables:
-    \begin{itemize}\itemsep3pt
-      \pause\item \emphblue{Susceptible fraction:} \ \ \ $X = S/\Npop$
-      \pause\item \emphblue{Prevalence of infection:}  \ $Y = I/\Npop$
-    \end{itemize}
+    \pause\item One parameter remains: \emphblue{Basic reproduction number:} %%\;$\Rn = \dfrac{\beta}{\gamma}$
+    
+    \pause
+    \vspace{-12pt}
+    \begin{equation*}\label{eq:Rn}
+    \Rn = \dfrac{\beta}{\gamma} = \Big(\parbox{10ex}{\centering\scriptsize transmission rate}\Big)
+    \times \Big(\parbox{8ex}{\centering\scriptsize mean infectious period}\Big)
+    = \; \left(\parbox{25ex}{\centering\scriptsize number of infections expected to be caused by a single infectious individual in a wholly susceptible population}\right)
+    \end{equation*}
 
-  \pause\item Dimensionless parameter: \emphblue{Basic reproduction number:} \;$\Rn = \dfrac{\beta}{\gamma}$
-
-  \pause
-  $\Big(\parbox{10ex}{\centering\scriptsize transmission rate}\Big)
-  \times \Big(\parbox{8ex}{\centering\scriptsize mean infectious period}\Big)
-  \pause = \; \Big(\parbox{31ex}{\centering\scriptsize number of infections expected to be caused by a single infectious individual in a wholly susceptible population}\Big)$
-
-  \pause\item Dimensionless time unit:
-  \begin{itemize}
-  \pause\item
-  \emphblue{Time in units of mean infectious period:} \ $\tau = \gamma t$
-  \end{itemize}
-
-  \end{itemize}
-
-  \pause
+  \pause\item ODEs in dimensionless, proportional form
   \begin{equation*}
     \begin{aligned}
       \ddtau{X} &\;=\; - \Rn X Y,        & \qquad X(\tauinit) \;=\; \xinit \\
@@ -409,12 +434,12 @@ legend("topright", bty="n",
       \ddtau{Y} &\;=\; (\Rn X  - 1) Y,   & \qquad Y(\tauinit) \;=\; \yinit
     \end{aligned}
   \end{equation*}
-
-  \begin{itemize}
-    \pause\item \emphblue{Peak prevalence:} \ $\ypeak\equiv\max Y(\tau)$ \
+  
+  \pause\item \emphblue{Peak prevalence:} \ $\ypeak\equiv\max Y(\tau)$ \
     occurs when \ $X(\tau)=\xpeak\equiv\dfrac{1}{\Rn}$
-  \end{itemize}
 
+  \end{itemize}
+  
   \frameendtarget<12>{eq:SIR}
 
 \end{frame}
@@ -435,72 +460,64 @@ legend("topright", bty="n",
 \end{frame}
 
 \begin{frame}
-  \frametitle{\textbf{SIR model:} \ $x$-$y$ phase plane}
-
-  \begin{itemize}\itemsep10pt
-
-    \pause\item No closed-form analytical solution of
-    \myhyperlink{eq:SIR}{SIR model} for
-    %% time series of
-    susceptible proportion $X(\tau)$ and prevalence of infection
-    $Y(\tau)$
-
-    \pause\item But the \emphblue{exact solution in $x$-$y$ phase plane} is easily found:
-
-    \smallskip
-    \begin{itemize}
-
-      \pause\item Consider \emphblue{ratio of rates} of change of $Y$ and $X$:
-      \pause
-      \begin{equation*}
-        \frac{\dee Y / \dee\tau}{\dee X/\dee\tau}
-        \pause \;=\; \frac{\Rn X Y - Y}{-\Rn X Y}
-        \pause \;=\; -1 + \frac{1}{\Rn X}
-      \end{equation*}
-
-      \pause\item Obtain simple \emphblue{separable ODE} for $Y(x)$:
-      \begin{equation*}
-        \ddx{Y} \;=\; -1 + \frac{\xpeak}{x} \,,
-        \qquad Y(\xinit) \;=\; \yinit
-      \end{equation*}
-      \pause
-      {\footnotesize\hfill
-\        ($\xpeak \,=\, \frac{1}{\Rn} \,=\, X(\tau)\text{ at peak prevalence}$)}
-
-      \bigskip
-      \pause\item \emphblue{Exact solution for phase portrait} is
-      \begin{equation*}
-        Y(x) \;=\; \yinit + (\xinit - x) - \xpeak\log{\frac{\xinit}{x}}
-      \end{equation*}
-
-    \end{itemize}
-  \end{itemize}
-  \frameendtarget<10>{eq:dYdx}
-  \frameendtarget<10>{eq:Yofx}
-\end{frame}
-
-\begin{frame}
   \frametitle{\textbf{SIR model:} \ Exact $x$-$y$ phase portrait \,$Y(x)$}
 
-  \begin{center}
-    \includegraphics[width=0.6\textwidth]{mbrs_sir_phase_portrait.pdf}
-  \end{center}
+  \vspace{-1cm}
+  \begin{equation*}
+      \frac{\dee Y / \dee\tau}{\dee X/\dee\tau}
+      \;=\; -1 + \frac{1}{\Rn X}
+      \quad {\color{beamerblue}\implies} \quad
+      Y(x) \;=\; \yinit + (\xinit - x) - \frac{1}{\Rn}\log{\frac{\xinit}{x}}
+  \end{equation*}
 
-  \begin{itemize}
-    \pause\item Final susceptible proportion $\bullet$ is smaller for larger $\Rn$
-    \pause\item Larger $\Rn$ $\implies$ all $\bullet$ move left
-  \end{itemize}
+  \vspace{-0.5cm}
+  \begin{columns}[c,onlytextwidth]
+    \begin{column}{0.4\textwidth}
+      \begin{flushleft}
+        \includegraphics[width=1.3\textwidth]{mbrs_sir_phase_portrait.pdf}
+      \end{flushleft}
+    \end{column}
+    \begin{column}{0.55\textwidth}
+      
+      \vspace{-1cm}
+      \begin{itemize}\itemsep15pt
+        \pause\item[]Initial (\whitebullet) and final ($\bullet$) susceptible proportions\\ are roots of $Y(x)=0$
+        
+        \begin{equation*}
+          \begin{aligned}
+            \pause
+            \text{Smaller }&\text{initial $x$ (\whitebullet)} \\
+            &{\color{beamerblue}\implies}  \text{larger final $x$ }(\bullet) \\[10pt]
+            \pause
+            \text{Larger }&\Rn \\
+            &{\color{beamerblue}\implies}  \text{smaller final $x$ }(\bullet)
+          \end{aligned}
+        \end{equation*}
+
+        %% \pause\item[]Final ($\bullet$) is further left (smaller) when
+        %% \begin{itemize}
+        %% \item Initial (\whitebullet) is further left (smaller)
+        %% \item $\Rn$ is larger
+        %% \end{itemize}
+      \end{itemize}
+
+    \end{column}
+  \end{columns}
 
   \overlaytarget<3>{fig:pp}
 
 \end{frame}
 
 \begin{frame}
-  \frametitle{\textbf{SIR With Vital Dynamics\\(DETERMINISTIC)}}
+  %%\frametitle{\textbf{SIR With Vital Dynamics\\(DETERMINISTIC)}}
+  \frametitle{\textbf{SIR With Vital Dynamics}}
+
+  \parskip=10pt
+  \footnotesize
 
   \bigskip
   With \term{vital dynamics} (births and deaths) at \emph{per capita} rate $\redmu$\\
-  there are additional terms in the equations.  \pause In terms of counts: \pause
+  there are additional terms in the equations.  \pause \emphblue{In terms of counts:} \pause
   \begin{equation*}\label{eq:sir-counts}
   \begin{aligned}
     \qquad
@@ -510,30 +527,37 @@ legend("topright", bty="n",
   %%\ddt{R} \;=\; \gamma I - \redmu R.
   \end{aligned}
   \end{equation*}
-  \pause In terms of proportions\pause, with dimensionless time
+
+  \pause \emphblue{In terms of proportions\pause,} with dimensionless time
   $\tau=(\gamma+\redmu)t$,\pause
   \begin{equation*}\label{eq:sir-proportion-odes}
   \begin{aligned}
   \ddtau{X}\;=\;\redeps(1-X)-\Rn XY,
   \qquad
-  \ddtau{Y}\;=\;(\Rn X-1)Y.
+  \ddtau{Y}\;=\;(\Rn X-1)Y
   \end{aligned}
   \end{equation*}
+
   \pause
-  \emphblue{Dimensionless parameters:}
+  \emphblue{Now \underline{\bfseries two} dimensionless parameters:}
+    %%(including new parameter $\redeps$):}
   \begin{equation*}\label{eq:R0-eps-defs}
-  \Rn\;=\;\frac{\beta}{\gamma+\redmu},
+    \begin{aligned}
+  \Rn\;&=\;\frac{\beta}{\gamma+\redmu}
+  \qquad\qquad (\text{basic reproduction number})\\[3pt]
+  \redeps\;&=\;\frac{\redmu}{\gamma+\redmu}
   \qquad
-  \redeps\;=\;\frac{\redmu}{\gamma+\redmu}
   \;=\;
   \frac{\text{\small mean infectious period}}{\text{\small mean lifetime}}
   \; {\color{red} \sim\; 0.001}
+    \end{aligned}
   \end{equation*}
   \overlaytarget<7>{target:eps}
+
   %%\pause
   %%For acute human infections, $\color{red}\redeps \sim 0.001$.
   \pause
-  \emphblue{Damped oscillations onto \term{endemic equilirium}:}
+  \emphblue{Generically get damped oscillations onto \term{endemic equilirium}:}
   \begin{equation*}\label{eq:sir-endemic-equilibrium}
   (\xstar,\ystar)
   \;=\;
@@ -681,7 +705,7 @@ legend("topright", bty="n",
   \begin{columns}[c,onlytextwidth]
     \begin{column}{0.55\textwidth}
       \centerline{\bfseries Time series}
-      \includegraphics[height=0.7\textheight]{todd_stochastic_sir_trajectory.pdf}
+      \includegraphics[height=0.75\textheight]{todd_stochastic_sir_trajectory.pdf}
     \end{column}
     \begin{column}{0.42\textwidth}
       \begin{itemize}
@@ -700,7 +724,7 @@ legend("topright", bty="n",
   \begin{columns}[c,onlytextwidth]
     \begin{column}{0.55\textwidth}
       \centerline{\bfseries Time series}
-      \includegraphics[height=0.7\textheight]{todd_stochastic_sir_trajectory.pdf}
+      \includegraphics[height=0.75\textheight]{todd_stochastic_sir_trajectory.pdf}
     \end{column}
     \begin{column}{0.42\textwidth}
       \centerline{\bfseries Phase plane trajectory}
@@ -736,12 +760,12 @@ legend("topright", bty="n",
           \hspace*{-1.25em}
           \begin{aligned}
           {\color{red}\xin}
-          &=
+          =\;&
           e^{-\Rn(1-\ystarref)}
-          + \epsref e^{\Rn\ystarref} \log\frac{\ystarref}{\ypeak}
+          + \epsref e^{\Rn\ystarref} \log\frac{\ystarref}{\color{red}\ypeak}
           + \Oh(\epsref^2) \\
-          {\color{red}\ypeak}
-          &=
+          & \quad\ {\color{red}\ypeak}
+          =
           1 - \frac{1}{\Rn}(1+\ln{\Rn}) + \Oh(\epsref^2)
           \end{aligned}
         \end{equation*}
@@ -780,6 +804,7 @@ legend("topright", bty="n",
       \end{column}
       
       \begin{column}{0.4\textwidth}
+        \vspace{-0.5cm}
         \centering
         \includegraphics[width=0.9\textwidth]{birth_death_process.png}
       \end{column}
@@ -788,13 +813,16 @@ legend("topright", bty="n",
   %%Define %%the ``discounted death pressure''
   %% weighted harmonic mean
   %%\begin{equation*}\label{eq:kendall-integral-A}
-  Define \qquad
+    
+  \medskip
+  Solution of linear ODE yields \
   $\displaystyle
-  \INTEGRAL
-  \;\coloneq\;
+  \left(\parbox{1.3cm}{\scriptsize\upshape\centering odds of\\\,extinction\,}\right)
+  \;=\;  
   \int_0^\infty \frac {d(t)} {e^{\int_0^t [b(t')-d(t')]\,\dee t'}} \,\dee t
-  $ \ 
-  %%\end{equation*}
+  \;\equiv\;
+  \INTEGRAL
+  $
 
   \smallskip
   Then the probability of extinction in finite time, \pause
@@ -807,14 +835,14 @@ legend("topright", bty="n",
   \pause
   If the process does not go extinct, it grows indefinitely.
   \pause
-  With \(K(0)=m\), independent lineages give extinction probability \(q^m\).
+  With \(K(0)=k\), independent lineages give extinction probability \(q^k\).
   \end{theorem}
 
   \pause
   \emphblue{Homogeneous case:}
 
   \vspace{-\smallskipamount}
-  If $b$ and $d$ are constant, then \ $\INTEGRAL=\dfrac{d}{b-d}$ \ and \ $q=\dfrac{d}{b}$.
+  If $b$ and $d$ are constant, then \ $\INTEGRAL=\dfrac{d}{b-d}=\dfrac{d/b}{1-(d/b)}$ \ so \ $q=\dfrac{d}{b}$.
 \end{frame}
 
 \begin{frame}
@@ -859,7 +887,7 @@ legend("topright", bty="n",
   demographic replenishment:
   \begin{equation*}\label{eq:susceptible-replenishment}
     \begin{aligned}
-    \ddtau{X} \;&=\;\epsref(1-X)-\Rn XY \;\approx\; \epsref(1-X), \qquad X(0)=\xinref \\[5pt]
+    \ddtau{X} \;&=\;\epsref(1-X)-\Rn XY \quad\;\approx\; \epsref(1-X), \qquad X(0)=\xinref \\[5pt]
 \implies\quad  X(t) \;&\approx\; 1-(1-\xinref)e^{-\mu t}
     \end{aligned}
   \end{equation*}
@@ -1014,7 +1042,6 @@ legend("topright", bty="n",
 \begin{frame}
   \frametitle{\bfseries SIR verdict}
 
-  \pause
   \emphblue{Based on the standard SIR model with births and deaths:}
 
   \bigskip
@@ -1056,40 +1083,12 @@ legend("topright", bty="n",
     \end{column}
   \end{columns}
 
-  \pause
   \footnotesize
   \begin{itemize}
-    \pause\item For a one-week infectious period, right panel has expected duration of immunity $\sim2$ years
+    \item For a one-week infectious period, right panel has expected duration of immunity $\sim2$ years
     \pause\item SIRS model seems sufficient to explain persistence of SARS-CoV-2
   \end{itemize}
 
-\end{frame}
-
-\begin{frame}
-  \frametitle{\bfseries SARS-CoV-2 persistence probability}
-
-  \pause
-  \bigskip
-  \emphblue{SIRS model assumes:}
-  \begin{itemize}
-    \pause\item immune waning
-    \pause\item no control
-    \pause\item no behavioural change
-    %% burnout after successful invasion is predicted to be negligible.
-  \end{itemize}
-
-  \begin{center}
-    \emphblue{\qquad\footnotesize one-week generation interval \quad\qquad three-week generation interval}
-    
-    \includegraphics[width=0.94\textwidth,height=0.70\textheight,keepaspectratio]{sars_cov_2_eta_effect.pdf}
-  \end{center}
-
-  \emphblue{Implications for SARS-CoV-2 persistence:}
-  \begin{itemize}
-    %%\pause\item Given estimated SARS-CoV-2 generation intervals and immune periods, it was almost certain to persist after not fizzling
-    \pause\item Given that SARS-CoV-2 did \emph{not} fizzle, and the mean immune period is short, the probability that it would have burnt out if allowed to spread without control was negligible.
-  \end{itemize}
-  
 \end{frame}
 
 \begin{frame}
@@ -1099,11 +1098,11 @@ legend("topright", bty="n",
 
 \pause
 Persistence of measles and many other infectious diseases with
-permanent or near-permanent immunity cannot be explained by the SIR or
-SIRS models.
+permanent or near-permanent immunity \emphblue{cannot be explained by the SIR or
+SIRS models}.
 
 \pause
-Mechanisms other than homogeneous mixing and decay of immunity must
+\emphblue{Mechanisms other than homogeneous mixing and decay of immunity} must
 play a role.  \pause \emphblue{Perhaps:}
 
 \begin{itemize}
@@ -1161,7 +1160,6 @@ play a role.  \pause \emphblue{Perhaps:}
   \end{center}
 
   \vfill
-  \pause
   \centerline{\color{beamerblue}\bfseries Questions?}
   \vfill
 
@@ -1213,6 +1211,8 @@ play a role.  \pause \emphblue{Perhaps:}
 \begin{frame}
   \frametitle{Why Contours Are Expensive by Simulation}
 
+  \parskip = 12pt
+
   A single persistence probability estimate requires many stochastic
   outbreaks, each followed through the dangerous trough.
 
@@ -1223,6 +1223,33 @@ play a role.  \pause \emphblue{Perhaps:}
   \pause
   The direct approximation changes the job from repeated rare-event
   simulation to evaluating a formula.
+\end{frame}
+
+\begin{frame}
+  \frametitle{\bfseries SARS-CoV-2 persistence probability}
+
+  \pause
+  \bigskip
+  \emphblue{SIRS model assumes:}
+  \begin{itemize}
+    \pause\item immune waning
+    \pause\item no control
+    \pause\item no behavioural change
+    %% burnout after successful invasion is predicted to be negligible.
+  \end{itemize}
+
+  \begin{center}
+    \emphblue{\qquad\footnotesize one-week generation interval \quad\qquad three-week generation interval}
+    
+    \includegraphics[width=0.94\textwidth,height=0.70\textheight,keepaspectratio]{sars_cov_2_eta_effect.pdf}
+  \end{center}
+
+  \emphblue{Implications for SARS-CoV-2 persistence:}
+  \begin{itemize}
+    %%\pause\item Given estimated SARS-CoV-2 generation intervals and immune periods, it was almost certain to persist after not fizzling
+    \pause\item Given that SARS-CoV-2 did \emph{not} fizzle, and the mean immune period is short, the probability that it would have burnt out if allowed to spread without control was negligible.
+  \end{itemize}
+  
 \end{frame}
 
 \end{document}
