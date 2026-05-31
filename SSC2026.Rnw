@@ -79,10 +79,11 @@ knitr::opts_chunk$set(
 \usepackage{xspace}
 \newcommand{\whitebullet}{\raisebox{1pt}{\small o}\xspace}
 \newcommand{\myhyperlink}[2]{{\color{aqua}\hyperlink{#1}{#2}}}
-\newcommand<>{\overlaytarget}[1]{\only#2{\hypertarget{#1}{}}}
-\newcommand<>{\frameendtarget}[1]{%
+%% Beamer's "." is the previous pause; ".(1)" targets the overlay just revealed.
+\newcommand{\currentoverlaytarget}[1]{\only<.(1)>{\hypertarget{#1}{}}}
+\newcommand{\frameendtarget}[1]{%
   \par\vskip 0pt plus 1filll\relax
-  \overlaytarget#2{#1}%
+  \currentoverlaytarget{#1}%
 }
 \newcommand{\emphblue}[1]{{\color{structure.fg}\emph{#1}}}
 \newcommand{\codex}[1]{{\color{red}#1}}
@@ -440,7 +441,7 @@ legend("topright", bty="n",
 
   \end{itemize}
   
-  \frameendtarget<12>{eq:SIR}
+  \frameendtarget{eq:SIR}
 
 \end{frame}
 
@@ -504,7 +505,7 @@ legend("topright", bty="n",
     \end{column}
   \end{columns}
 
-  \overlaytarget<3>{fig:pp}
+  \currentoverlaytarget{fig:pp}
 
 \end{frame}
 
@@ -552,7 +553,7 @@ legend("topright", bty="n",
   \; {\color{red} \sim\; 0.001}
     \end{aligned}
   \end{equation*}
-  \overlaytarget<7>{target:eps}
+  \currentoverlaytarget{target:eps}
 
   %%\pause
   %%For acute human infections, $\color{red}\redeps \sim 0.001$.
@@ -563,8 +564,8 @@ legend("topright", bty="n",
   \;=\;
   \left(\frac{1}{\Rn}, \;\redeps\Big(1-\frac{1}{\Rn}\Big)\right)
   \end{equation*}
-  \overlaytarget<8>{target:xstar}
-  \overlaytarget<8>{target:ystar}
+  \currentoverlaytarget{target:xstar}
+  \currentoverlaytarget{target:ystar}
 \end{frame}
 
 \begin{frame}
@@ -769,7 +770,7 @@ legend("topright", bty="n",
           1 - \frac{1}{\Rn}(1+\ln{\Rn}) + \Oh(\epsref^2)
           \end{aligned}
         \end{equation*}
-        \overlaytarget<3>{target:xin}
+        \currentoverlaytarget{target:xin}
         \rightline{\href{https://doi.org/10.1137/23M1576050}{\tiny Parsons \& Earn 2024, SIAP}}
         \normalsize
         \pause\item In the boundary layer, approximate infection dynamics by time-inhomogeneous birth-death process.
