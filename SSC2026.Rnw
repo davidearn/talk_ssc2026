@@ -1,5 +1,5 @@
-\documentclass{beamer}
-%%\documentclass[handout]{beamer}
+%%\documentclass{beamer}
+\documentclass[handout]{beamer}
 
 <<setup, include=FALSE>>=
 knitr::opts_chunk$set(
@@ -427,7 +427,7 @@ legend("topright", bty="n",
     = \; \left(\parbox{25ex}{\centering\scriptsize number of infections expected to be caused by a single infectious individual in a wholly susceptible population}\right)
     \end{equation*}
 
-  \pause\item ODEs in dimensionless, proportional form
+  \pause\item \emphblue{ODEs in dimensionless, proportional form:}
   \begin{equation*}
     \begin{aligned}
       \ddtau{X} &\;=\; - \Rn X Y,        & \qquad X(\tauinit) \;=\; \xinit \\
@@ -584,7 +584,7 @@ legend("topright", bty="n",
     \begin{column}{0.45\textwidth}
       Without vital dynamics, the \term{final size} (total proportion infected during the epidemic) \pause
       %% (cumulative infected proportion)
-      grows monotonically with \(\Rn\)\pause,
+      grows monotonically with \(\Rn\) ($\sim1-e^{-\Rn}$)\pause,
       and very low prevalence is reached quickly.
 
       \pause
@@ -665,7 +665,7 @@ legend("topright", bty="n",
 
 \begin{frame}
   %%\frametitle{Individual-Based Stochastic SIR}
-  \frametitle{\textbf{SIR With Vital Dynamics\\(STOCHASTIC, INDIVDIUAL-BASED)}}
+  \frametitle{\textbf{SIR With Vital Dynamics\\(STOCHASTIC, INDIVIDUAL-BASED)}}
 
   Same model interpreted as a continuous-time Markov chain:
   \begin{center}
@@ -969,10 +969,12 @@ legend("topright", bty="n",
   \bigskip
   \emphblue{\underline{Note}:}
   %% see PNAS eqs [28],[29] for \Ppersist_m(\Rn,\epsref,n,k), which involves \xinj rather than \xin
-  The probability of persisting beyond $m$ waves, $\Ppersist_m(\Rn,\epsref,n,k)$, is barely less than
-  $\Ppersist_1(\Rn,\epsref,n,k)$
-  \pause\\
-  (because subsequent troughs are much shallower).
+  The probability of persisting 
+  %%beyond $m$ waves, $\Ppersist_m(\Rn,\epsref,n,k)$,
+  for several waves
+  is barely less than $\Ppersist_1(\Rn,\epsref,n,k)$,
+  \pause
+  because subsequent prevalence troughs are much shallower.
 
 \end{frame}
 
@@ -1107,12 +1109,13 @@ SIRS models}.
 play a role.  \pause \emphblue{Perhaps:}
 
 \begin{itemize}
-\pause\item Multiple introductions into the host population\\
+\pause\item \emphblue{Repeated introductions} into the host population\\
   {\tiny(\eg {Keeling \& Gilligan 2000}, {Pulliam \emph{et al.} 2007})} %% ~\cite{Pull+07}, %KeelGill00,
-\pause\item Spatial spread among cities promoting global persistence in spite of local fadeouts\\
+\pause\item \emphblue{Heterogeneous mixing}, \eg spatial spread among cities promoting global persistence in spite of local fadeouts\\
   {\tiny(\eg {Dobson \& Carper 1996}, {Cross \emph{et al.} 2006})} %%~\cite{Cros+06}, %DopsCarp96, 
-  \pause\item Invasion with low $\R_0$ followed by evolution to higher $\R_0$\\
-  {\tiny(\eg {Antia \emph{et al.} 2003})} %%~\cite{Anti+03}.
+  \pause\item \emphblue{Evolution}, \eg invade with low $\R_0$, evolve higher $\R_0$\\
+              {\tiny(\eg {Antia \emph{et al.} 2003})} %%~\cite{Anti+03}.
+  %% other mechanisms: seasonality, host heterogeneity
 \end{itemize}
 
 \end{frame}
